@@ -1,0 +1,18 @@
+.menu {
+    background: var(--app-alt-background);
+    padding: 40px 25px;
+
+    max-width: 360px;
+    min-width: fit-content;
+    width: 30%;
+    flex-shrink: 0;
+    flex-grow: 0;
+    transition: var(--transition);
+}
+
+.compact {
+    width: 90px;
+    padding: 40px 10px;
+    max-width: unset;
+    min-width: unset;
+}

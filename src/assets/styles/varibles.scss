@@ -1,0 +1,22 @@
+:root {
+    --primary-color: #000;
+    --alt-color: #ffffff;
+    --light-grey: #f2f2f2;
+    --dark-grey: #858585;
+    --negative-color: #d63d3d;
+    --menu-active-background: #47ed7630;
+    --menu-active-color: #47ed76;
+    --app-background: #f0f0f0;
+    --app-alt-background: #ffffff;
+    --button-primary-background: #0085ff;
+    --button-secondary-background: #47ed76;
+    --button-negative-background: #47ed76;
+
+    --transition: all 0.1s ease-in-out;
+
+    --radius: 5px;
+
+    --button-primary-shadow: 0px 4px 10px 0px #0085ff20;
+    --button-secondary-shadow: 0px 4px 10px 0px #47ed7620;
+    --button-negative-shadow: 0px 4px 10px 0px #d63d3d20;
+}

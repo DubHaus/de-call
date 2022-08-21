@@ -1,0 +1,32 @@
+.button {
+    color: var(--primary-color);
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: var(--transition);
+    border-radius: var(--radius);
+    width: 100%;
+
+    &:hover {
+        background: var(--light-grey);
+    }
+}
+
+.compact {
+    .name {
+        display: none;
+    }
+}
+
+.active {
+    background: var(--menu-active-background);
+    &:hover {
+        background: var(--menu-active-background);
+    }
+    .name {
+        font-weight: 600;
+    }
+
+    .icon {
+        color: var(--menu-active-color);
+    }
+}

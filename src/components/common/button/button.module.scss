@@ -1,0 +1,23 @@
+.button {
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: var(--radius);
+}
+
+.primary {
+    background: var(--button-primary-background);
+    box-shadow: var(--button-primary-shadow);
+    color: var(--alt-color);
+}
+
+.secondary {
+    background: var(--button-secondary-background);
+    box-shadow: var(--button-secondary-shadow);
+    color: var(--primary-color);
+}
+
+.negative {
+    background: var(--negative-color);
+    box-shadow: var(--button-negative-shadow);
+    color: var(--alt-color);
+}

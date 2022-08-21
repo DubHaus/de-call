@@ -1,0 +1,79 @@
+.container {
+    position: relative;
+}
+
+.button {
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    border-radius: 100px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+}
+
+.primary {
+    background: var(--button-primary-background);
+    box-shadow: var(--button-primary-shadow);
+    color: var(--alt-color);
+}
+
+.secondary {
+    background: var(--button-secondary-background);
+    box-shadow: var(--button-secondary-shadow);
+    color: var(--primary-color);
+}
+
+.negative {
+    background: var(--negative-color);
+    box-shadow: var(--button-negative-shadow);
+    color: var(--alt-color);
+}
+
+.contextButton {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    border-radius: 10px;
+    width: 20px;
+    height: 20px;
+    background: var(--light-grey);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    cursor: pointer;
+
+    .contextIcon {
+        width: 17px;
+        height: 17px;
+    }
+}
+
+.contextContent {
+    z-index: 0;
+    background: var(--dark-grey);
+    position: absolute;
+    bottom: 50px;
+    left: 0px;
+    width: 200px;
+    max-height: 300px;
+    overflow: scroll;
+    border-radius: var(--radius);
+    padding: 5px 10px;
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
