@@ -32,6 +32,12 @@
     color: var(--primary-color);
 }
 
+.alt {
+    background: var(--button-alt-background);
+    box-shadow: var(--button-alt-shadow);
+    color: var(--primary-color);
+}
+
 .negative {
     background: var(--negative-color);
     box-shadow: var(--button-negative-shadow);

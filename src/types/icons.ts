@@ -13,6 +13,7 @@ export type IconType =
     | 'check'
     | 'microphone'
     | 'video'
+    | 'video-off'
     | 'sort'
     | 'down'
     | 'calendar'
@@ -24,4 +25,5 @@ export type IconType =
     | 'github'
     | 'twitter'
     | 'audio'
-    | 'instagram';
+    | 'instagram'
+    | 'microphone-muted';

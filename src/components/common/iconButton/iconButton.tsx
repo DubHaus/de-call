@@ -6,10 +6,10 @@ import styles from './iconButton.module.scss';
 
 type Props = {
     icon: IconType;
-    type?: 'primary' | 'secondary' | 'negative';
+    type?: 'primary' | 'secondary' | 'negative' | "alt";
     disabled?: boolean;
     contextMenu?: ReactNode;
-    onClick: () => void
+    onClick: () => void;
 };
 
 const IconButton = ({
@@ -17,26 +17,29 @@ const IconButton = ({
     type = 'primary',
     disabled = false,
     contextMenu,
-    onClick
+    onClick,
 }: Props) => {
     const [open, setOpen] = useState(false);
 
     return (
         <Container className={styles.container}>
-            <button onClick={onClick}
+            <button
+                onClick={onClick}
                 className={`${styles.button} ${styles[type]} ${
                     disabled && styles.disabled
                 }`}>
                 <Icon className={styles.icon} icon={icon} />
-
-                {contextMenu ? (
-                    <button
-                        onClick={() => setOpen(!open)}
-                        className={styles.contextButton}>
-                        <Icon className={styles.contextIcon} icon="down" />
-                    </button>
-                ) : null}
             </button>
+            {contextMenu ? (
+                <button
+                    onClick={e => {
+                        e.stopPropagation()
+                        setOpen(!open);
+                    }}
+                    className={styles.contextButton}>
+                    <Icon className={styles.contextIcon} icon="down" />
+                </button>
+            ) : null}
             {open ? (
                 <Container className={styles.contextContent}>
                     {contextMenu}

@@ -26,6 +26,8 @@ import {ReactComponent as Sort} from 'assets/icons/sort.svg';
 import {ReactComponent as Twitter} from 'assets/icons/twitter.svg';
 import {ReactComponent as Video} from 'assets/icons/video.svg';
 import {ReactComponent as Audio} from 'assets/icons/audio.svg';
+import {ReactComponent as MicrophoneMuted} from 'assets/icons/microphone-muted.svg';
+import {ReactComponent as videoOff} from 'assets/icons/video-off.svg';
 
 const icons = {
     'add-photo': AddPhoto,
@@ -56,6 +58,8 @@ const icons = {
     sort: Sort,
     twitter: Twitter,
     video: Video,
+    "video-off": videoOff,
+    "microphone-muted": MicrophoneMuted,
 };
 
 export default icons;
