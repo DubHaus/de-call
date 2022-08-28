@@ -11,7 +11,7 @@ type Props = {
 const Menu = ({className = '', compact = false}: Props) => (
     <Container
         className={`${styles.menu} ${className} ${compact && styles.compact}`}>
-        <Flex gap={20} direction="column">
+        <Flex gap={15} direction="column">
             <MenuItem
                 icon="home"
                 name="Home"

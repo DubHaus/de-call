@@ -1,6 +1,12 @@
 .content {
-    padding: 40px;
+    padding: 30px;
+    overflow-y: scroll;
+    height: calc(100vh - 80px);
+    width: 100%;
 }
 .container {
     min-height: 100vh;
+    width: 100vw;
+    height: auto;
+    overflow: hidden;
 }

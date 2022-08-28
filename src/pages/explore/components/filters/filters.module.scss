@@ -1,0 +1,28 @@
+.container {
+    background: var(--app-alt-background);
+    padding: 10px 20px;
+    margin-left: 20px;
+    border-radius: var(--radius);
+    position: relative;
+}
+
+.filters {
+    position: absolute;
+    background: inherit;
+    padding: 20px;
+    right: 0;
+    top: 60px;
+    border-radius: var(--radius);
+    box-shadow: var(--default-shadow);
+}
+
+.filterIcon {
+    width: 24px;
+    height: 24px;
+}
+
+.filter {
+    background: var(--light-grey);
+    min-width: 300px;
+    margin: 20px 0;
+}

@@ -28,10 +28,12 @@ import {ReactComponent as Video} from 'assets/icons/video.svg';
 import {ReactComponent as Audio} from 'assets/icons/audio.svg';
 import {ReactComponent as MicrophoneMuted} from 'assets/icons/microphone-muted.svg';
 import {ReactComponent as videoOff} from 'assets/icons/video-off.svg';
+import {ReactComponent as filter} from 'assets/icons/filter.svg';
+import {ReactComponent as close} from 'assets/icons/close.svg';
 
 const icons = {
     'add-photo': AddPhoto,
-    'audio': Audio,
+    audio: Audio,
     attach: Attach,
     calendar: Calendar,
     call: Call,
@@ -58,8 +60,10 @@ const icons = {
     sort: Sort,
     twitter: Twitter,
     video: Video,
-    "video-off": videoOff,
-    "microphone-muted": MicrophoneMuted,
+    'video-off': videoOff,
+    'microphone-muted': MicrophoneMuted,
+    filter: filter,
+    close: close,
 };
 
 export default icons;

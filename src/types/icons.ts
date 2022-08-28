@@ -26,4 +26,6 @@ export type IconType =
     | 'twitter'
     | 'audio'
     | 'instagram'
+    | 'filter'
+    | 'close'
     | 'microphone-muted';

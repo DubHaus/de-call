@@ -8,7 +8,7 @@ import styles from './button.module.scss';
 type Props = {
     children: ReactNode;
     icon?: IconType;
-    type?: 'primary' | 'secondary' | 'negative';
+    type?: 'primary' | 'secondary' | 'negative' | 'alt';
     disabled?: boolean;
 };
 
@@ -24,7 +24,7 @@ const Button = ({
         }`}>
         <Flex gap={10}>
             <Caption>{children}</Caption>
-            {icon ? <Icon icon={icon} /> : null}
+            {icon ? <Icon className={styles.icon} icon={icon} /> : null}
         </Flex>
     </button>
 );

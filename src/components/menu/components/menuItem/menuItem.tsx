@@ -24,7 +24,7 @@ const MenuItem = ({
             compact && styles.compact
         }`}
         onClick={onClick}>
-        <Flex gap={10}>
+        <Flex gap={compact ? 0 : 10}>
             <Icon className={styles.icon} icon={icon} />
             <Caption className={styles.name}>{name}</Caption>
         </Flex>

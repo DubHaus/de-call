@@ -1,5 +1,6 @@
 import Container from 'components/common/container';
 import Flex from 'components/common/flex';
+import Login from 'components/login';
 import Logo from './components/logo';
 import MenuButton from './components/menuButton';
 import styles from './header.module.scss';
@@ -12,14 +13,14 @@ type Props = {
 const Header = ({active, setActive}: Props) => {
     return (
         <Container className={styles.header}>
-            <Flex>
-                <MenuButton active={active} onChange={setActive} />
-                <Logo />
-                <Flex>
-                    <a href="#1">Menu1</a>
-                    <a href="#2">Menu2</a>
-                    <a href="#3">Menu3</a>
+            <Flex justify="between">
+                <Flex gap={10}>
+                    <MenuButton active={active} onChange={setActive} />
+                    <Logo />
                 </Flex>
+                <Container className={styles.login}>
+                    <Login />
+                </Container>
             </Flex>
         </Container>
     );

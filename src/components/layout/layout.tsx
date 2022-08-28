@@ -12,9 +12,9 @@ type Props = {
 const Layout = ({children}: Props) => {
     const [open, setOpen] = useState(false);
     return (
-        <Container className={styles.container} >
+        <Container className={styles.container}>
             <Header active={open} setActive={setOpen} />
-            <Flex>
+            <Flex align="stretch">
                 <Menu compact={!open} className={styles.menuContainer} />
                 <Container className={styles.content}>{children}</Container>
             </Flex>

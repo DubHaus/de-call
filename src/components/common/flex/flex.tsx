@@ -8,6 +8,8 @@ type Props = {
     justify?: 'between' | 'around' | 'start' | 'end' | 'stretch';
     gap?: number | string;
     direction?: 'row' | 'column';
+    className?: string;
+    wrap?: boolean;
 };
 
 const Flex = ({
@@ -16,12 +18,14 @@ const Flex = ({
     justify = 'stretch',
     gap = '',
     direction = 'row',
+    className = '',
+    wrap = false,
 }: Props) => (
     <Container
-        style={{gap}}
+        style={{gap, flexWrap: wrap ? 'wrap' : 'nowrap'}}
         className={`${styles.flex} ${styles[`align-${align}`]} ${
             styles[`justify-${justify}`]
-        } ${styles[`${direction}`]}`}>
+        } ${styles[`${direction}`]} ${className}`}>
         {children}
     </Container>
 );

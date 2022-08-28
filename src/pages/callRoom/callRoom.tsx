@@ -1,4 +1,3 @@
-import Button from 'components/common/button';
 import Container from 'components/common/container';
 import Caption from 'components/common/typography/caption';
 import Title from 'components/common/typography/title';

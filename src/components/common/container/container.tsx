@@ -1,16 +1,18 @@
-import {CSSProperties, ReactNode} from 'react';
+import React, {CSSProperties, ReactNode} from 'react';
 
 type Props = {
-    children: ReactNode;
+    children?: ReactNode;
     className?: string;
     style?: CSSProperties;
     onClick?: () => void;
 };
 
-const Container = ({children, className = '', onClick, style = {}}: Props) => (
-    <div className={className} style={style} onClick={onClick} >
-        {children}
-    </div>
+const Container = React.forwardRef<HTMLDivElement, Props>(
+    ({children = null, className = '', onClick, style = {}}: Props, ref) => (
+        <div ref={ref} className={className} style={style} onClick={onClick}>
+            {children}
+        </div>
+    )
 );
 
 export default Container;
