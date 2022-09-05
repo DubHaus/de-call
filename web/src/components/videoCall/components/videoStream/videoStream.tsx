@@ -33,8 +33,8 @@ class VideoStream extends Component<{}, State> {
         super(props);
 
         this.state = {
-            audioActive: true,
-            videoActive: true,
+            audioActive: false,
+            videoActive: false,
             audioDevices: [],
             videoDevices: [],
             activeAudioInput: '',
@@ -62,6 +62,7 @@ class VideoStream extends Component<{}, State> {
         this.changeAudioInput = this.changeAudioInput.bind(this);
         this.changeVideoInput = this.changeVideoInput.bind(this);
         this.switchDevice = this.switchDevice.bind(this);
+        this.stopStream = this.stopStream.bind(this);
     }
 
     componentDidMount() {
@@ -142,6 +143,14 @@ class VideoStream extends Component<{}, State> {
                 // });
             })
             .catch(console.error);
+    }
+
+    stopStream() {
+        if (this.stream) {
+            this.stream.getTracks().forEach(track => {
+                track.stop();
+            });
+        }
     }
 
     toggleAudio() {
@@ -283,7 +292,7 @@ class VideoStream extends Component<{}, State> {
                             type={videoMuted ? 'alt' : 'secondary'}
                         />
                         <IconButton
-                            onClick={() => {}}
+                            onClick={this.stopStream}
                             icon="cancel-call"
                             type="negative"
                         />
