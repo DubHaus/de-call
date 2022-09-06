@@ -12,17 +12,20 @@
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "graphql": "^16.6.0",
+    "graphql-request": "^5.0.0",
     "next": "^12.2.5",
     "peerjs": "^1.4.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-query": "^3.39.2",
     "typescript": "^4.7.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "generate": "graphql-codegen"
   },
   "eslintConfig": {
     "extends": [
@@ -43,6 +46,11 @@
     ]
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^2.12.0",
+    "@graphql-codegen/typescript": "^2.7.3",
+    "@graphql-codegen/typescript-graphql-request": "^4.5.4",
+    "@graphql-codegen/typescript-operations": "^2.5.3",
+    "@graphql-codegen/typescript-react-query": "^4.0.1",
     "@svgr/webpack": "^6.3.1",
     "sass": "^1.54.5"
   }
