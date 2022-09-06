@@ -1,4 +1,4 @@
-import {ReactComponent as LogoIcon} from 'assets/icons/logo.svg';
+import LogoIcon from 'public/icons/logo.svg';
 import styles from './logo.module.scss';
 
 const Logo = () => <LogoIcon className={styles.logo} />;
