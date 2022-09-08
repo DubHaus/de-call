@@ -10,10 +10,17 @@ import {verify} from 'jsonwebtoken';
 import {User} from './entity/User';
 import {createAccessToken, createRefreshToken} from './utils/auth';
 import {sendRefreshToken} from './utils/sendRereshToken';
+import cors from 'cors';
 
 (async () => {
     const app = express();
     app.use(cookieParser());
+    app.use(
+        cors({
+            origin: 'http://localhost:3000',
+            credentials: true,
+        })
+    );
 
     app.post('/refresh_token', async (req, res) => {
         const token = req.cookies.rto;
@@ -42,10 +49,10 @@ import {sendRefreshToken} from './utils/sendRereshToken';
 
         sendRefreshToken(res, createRefreshToken(user)); // refresh refresh token
 
-        return {
+        return res.send({
             ok: true,
             accessToken: createAccessToken(user),
-        };
+        });
     });
 
     await AppDataSource.initialize();
@@ -61,29 +68,9 @@ import {sendRefreshToken} from './utils/sendRereshToken';
     });
 
     await apolloServer.start();
-    apolloServer.applyMiddleware({app});
+    apolloServer.applyMiddleware({app, cors: false});
 
     app.listen(4000, () => {
         console.log('express server started on port 4000');
     });
 })();
-
-// AppDataSource.initialize()
-//     .then(async () => {
-//         console.log('Inserting a new user into the database...');
-//         const user = new User();
-//         user.firstName = 'Timber';
-//         user.lastName = 'Saw';
-//         user.age = 25;
-//         await AppDataSource.manager.save(user);
-//         console.log('Saved a new user with id: ' + user.id);
-
-//         console.log('Loading users from the database...');
-//         const users = await AppDataSource.manager.find(User);
-//         console.log('Loaded users: ', users);
-
-//         console.log(
-//             'Here you can setup and run express / fastify / any other framework.'
-//         );
-//     })
-//     .catch(error => console.log(error));

@@ -6,7 +6,7 @@ type Props = {
     children: ReactNode;
     align?: 'center' | 'start' | 'end' | 'stretch';
     justify?: 'between' | 'around' | 'start' | 'end' | 'stretch';
-    gap?: number | string;
+    gap?: number;
     direction?: 'row' | 'column';
     className?: string;
     wrap?: boolean;
@@ -16,7 +16,7 @@ const Flex = ({
     children,
     align = 'center',
     justify = 'stretch',
-    gap = '',
+    gap = 0,
     direction = 'row',
     className = '',
     wrap = false,

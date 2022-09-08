@@ -9,6 +9,7 @@ type Props = {
     children: ReactNode;
     icon?: IconType;
     type?: 'primary' | 'secondary' | 'negative' | 'alt';
+    submit?: boolean;
     disabled?: boolean;
 };
 
@@ -17,8 +18,10 @@ const Button = ({
     icon,
     type = 'primary',
     disabled = false,
+    submit = false,
 }: Props) => (
     <button
+        type={submit ? 'submit' : 'button'}
         className={`${styles.button} ${styles[type]} ${
             disabled && styles.disabled
         }`}>

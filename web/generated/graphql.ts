@@ -70,12 +70,53 @@ export type User = {
   lastName?: Maybe<Scalars['String']>;
 };
 
+export type LoginMutationVariables = Exact<{
+  input: LoginUserInput;
+}>;
+
+
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginResponse', accessToken: string } };
+
+export type RegisterMutationVariables = Exact<{
+  input: CreateUserInput;
+}>;
+
+
+export type RegisterMutation = { __typename?: 'Mutation', register: boolean };
+
+export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCurrentUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, email: string, firstName: string, lastName?: string | null } };
+
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, firstName: string, lastName?: string | null, email: string }> };
 
 
+export const LoginDocument = gql`
+    mutation Login($input: LoginUserInput!) {
+  login(input: $input) {
+    accessToken
+  }
+}
+    `;
+export const RegisterDocument = gql`
+    mutation Register($input: CreateUserInput!) {
+  register(input: $input)
+}
+    `;
+export const GetCurrentUserDocument = gql`
+    query getCurrentUser {
+  user {
+    id
+    email
+    firstName
+    lastName
+  }
+}
+    `;
 export const GetUsersDocument = gql`
     query getUsers {
   users {
@@ -94,6 +135,15 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
+    Login(variables: LoginMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<LoginMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<LoginMutation>(LoginDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Login', 'mutation');
+    },
+    Register(variables: RegisterMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<RegisterMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<RegisterMutation>(RegisterDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'Register', 'mutation');
+    },
+    getCurrentUser(variables?: GetCurrentUserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCurrentUserQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetCurrentUserQuery>(GetCurrentUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getCurrentUser', 'query');
+    },
     getUsers(variables?: GetUsersQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetUsersQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetUsersQuery>(GetUsersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getUsers', 'query');
     }

@@ -4,7 +4,7 @@ import Title from 'components/common/typography/title';
 import Layout from 'components/layout';
 import VideoCall from 'components/videoCall';
 
-const CallRoom = () => (
+const CallRoomPage = () => (
     <Layout>
         <Container>
             <Title level="h2">Video call with Timyr Green</Title>
@@ -19,4 +19,4 @@ const CallRoom = () => (
     </Layout>
 );
 
-export default CallRoom;
+export default CallRoomPage;

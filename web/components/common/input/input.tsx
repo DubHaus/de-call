@@ -1,9 +1,10 @@
-import {ReactNode} from 'react';
+import {HTMLInputTypeAttribute, ReactNode} from 'react';
 import Container from '../container';
 import Flex from '../flex';
+import {Omit} from 'types/utils';
 import styles from './input.module.scss';
 
-type Props = {
+interface Props {
     value?: string;
     onChange?: (value: string) => void;
     left?: ReactNode;
@@ -12,7 +13,7 @@ type Props = {
     className?: string;
     compact?: boolean;
     altBackground?: boolean;
-};
+}
 
 const Input = ({
     value = '',
@@ -23,7 +24,8 @@ const Input = ({
     className = '',
     compact = false,
     altBackground = false,
-}: Props) => (
+    ...props
+}: Props & Omit<React.HTMLProps<HTMLInputElement>, 'onChange'>) => (
     <Container
         className={`${styles.container} ${
             compact && styles.compact
@@ -31,6 +33,7 @@ const Input = ({
         <Flex gap={10}>
             {left && <Container>{left}</Container>}
             <input
+                {...props}
                 value={value}
                 placeholder={placeholder}
                 onChange={onChange && (e => onChange(e.target.value))}

@@ -1,4 +1,8 @@
 import {useState} from 'react';
+import {useMutation} from 'react-query';
+
+import {Register} from 'api';
+
 import Checkbox from 'components/common/checkbox';
 import Flex from 'components/common/flex';
 import Input from 'components/common/input';
@@ -9,49 +13,87 @@ import Layout from 'components/layout';
 import styles from './signUp.module.scss';
 import Container from 'components/common/container';
 import Button from 'components/common/button';
+import Form from 'components/common/form';
+import {CreateUserInput} from 'generated/graphql';
+import {useRouter} from 'next/router';
 
-const SignUp = () => {
-    const [checked, setChecked] = useState(false);
+const SignUpPage = () => {
+    const [terms, setTerms] = useState(false);
+    const [name, setName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const mutation = useMutation('register', (input: CreateUserInput) =>
+        Register({input})
+    );
+    const router = useRouter();
+
     return (
         <Layout>
             <Title className={styles.title} level="h2">
                 Sign up
             </Title>
-            <Container>
-                <Flex gap={20}>
+            <Form
+                onSubmit={async () => {
+                    const repsonce = await mutation.mutateAsync({
+                        email,
+                        firstName,
+                        password,
+                    });
+                    if (repsonce.register) router.push('/'); // TODO create error handler
+                }}>
+                <Container>
+                    <Flex gap={20}>
+                        <Input
+                            className={`${styles.input} ${styles.name}`}
+                            placeholder="Name"
+                            value={name}
+                            onChange={setName}
+                            name="name"
+                        />
+                        <Input
+                            className={`${styles.input} ${styles.userName}`}
+                            placeholder="Username"
+                            value={firstName}
+                            onChange={setFirstName}
+                            name="username"
+                        />
+                    </Flex>
                     <Input
-                        className={`${styles.input} ${styles.name}`}
-                        placeholder="Name"
+                        className={`${styles.input} ${styles.email}`}
+                        placeholder="Email"
+                        value={email}
+                        onChange={setEmail}
+                        name="email"
                     />
                     <Input
-                        className={`${styles.input} ${styles.userName}`}
-                        placeholder="Username"
+                        className={`${styles.input} ${styles.password}`}
+                        placeholder="Password"
+                        value={password}
+                        onChange={setPassword}
+                        name="password"
+                        type="password"
                     />
-                </Flex>
-                <Input
-                    className={`${styles.input} ${styles.email}`}
-                    placeholder="Email"
-                />
-                <Input
-                    className={`${styles.input} ${styles.password}`}
-                    placeholder="Password"
-                />
 
-                <Checkbox
-                    className={`${styles.input} ${styles.checkbox}`}
-                    onChange={setChecked}
-                    value={checked}>
-                    <Caption>
-                        Creating an account means you’re okay with our{' '}
-                        <Link>Terms of Service </Link>,{' '}
-                        <Link>Privacy Policy</Link>, and our default
-                        Notification Settings.
-                    </Caption>
-                </Checkbox>
-            </Container>
-            <Button type="secondary">Create account</Button>
+                    <Checkbox
+                        className={`${styles.input} ${styles.checkbox}`}
+                        onChange={setTerms}
+                        value={terms}>
+                        <Caption>
+                            Creating an account means you’re okay with our{' '}
+                            <Link>Terms of Service </Link>,{' '}
+                            <Link>Privacy Policy</Link>, and our default
+                            Notification Settings.
+                        </Caption>
+                    </Checkbox>
+                </Container>
+                <Button submit type="secondary">
+                    Create account
+                </Button>
+            </Form>
         </Layout>
     );
 };
 
-export default SignUp;
+export default SignUpPage;

@@ -4,15 +4,15 @@ import {queryClient, getUsers} from 'api';
 import Container from 'components/common/container';
 import Title from 'components/common/typography/title';
 
-export const getServerSideProps = async () => {
-    await queryClient.prefetchQuery('users', () => getUsers());
+// export const getServerSideProps = async () => {
+//     await queryClient.prefetchQuery('users', () => getUsers());
 
-    return {
-        props: {
-            dehydratedState: dehydrate(queryClient),
-        },
-    };
-};
+//     return {
+//         props: {
+//             dehydratedState: dehydrate(queryClient),
+//         },
+//     };
+// };
 
 const App = () => {
     const {data} = useQuery('users', () => getUsers());

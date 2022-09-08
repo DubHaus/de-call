@@ -2,13 +2,12 @@ import Container from 'components/common/container';
 import Flex from 'components/common/flex';
 import Icon from 'components/common/icon';
 import Input from 'components/common/input';
-import Modal from 'components/common/modal';
 import Layout from 'components/layout';
 import Card from './components/card';
 import Filters from './components/filters';
 import styles from './explore.module.scss';
 
-const Explore = () => (
+const ExplorePage = () => (
     <>
         <Layout>
             <Container className={styles.search}>
@@ -43,4 +42,4 @@ const Explore = () => (
     </>
 );
 
-export default Explore;
+export default ExplorePage;
