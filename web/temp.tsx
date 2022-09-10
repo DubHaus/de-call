@@ -1,7 +1,7 @@
 import {MediaConnection} from 'peerjs';
 import {useCallback, useRef, useState} from 'react';
 import './App.css';
-import {usePeerConnection} from 'hooks';
+import {usePeerConnection} from 'src/hooks';
 
 function App() {
     const ref = useRef<HTMLVideoElement>(null);
