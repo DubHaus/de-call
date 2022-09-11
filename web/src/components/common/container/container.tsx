@@ -5,11 +5,22 @@ type Props = {
     className?: string;
     style?: CSSProperties;
     onClick?: () => void;
+    gap?: number;
 };
 
 const Container = React.forwardRef<HTMLDivElement, Props>(
-    ({children = null, className = '', onClick, style = {}}: Props, ref) => (
-        <div ref={ref} className={className} style={style} onClick={onClick}>
+    (
+        {children = null, className = '', gap, onClick, style = {}}: Props,
+        ref
+    ) => (
+        <div
+            ref={ref}
+            className={className}
+            style={{
+                ...style,
+                ...(gap ? {gap, display: 'flex', flexDirection: 'column'} : {}),
+            }}
+            onClick={onClick}>
             {children}
         </div>
     )

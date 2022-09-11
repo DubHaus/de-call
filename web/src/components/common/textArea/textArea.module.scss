@@ -4,16 +4,26 @@
     border-radius: var(--radius);
     background: var(--alt-color);
     color: var(--input-color);
+    position: relative;
 
-    input {
+    textarea {
         color: var(--input-color);
         font-size: 16px;
         width: 100%;
+        min-height: 100px;
     }
 
-    input::placeholder {
+    textarea::placeholder {
         color: var(--input-placeholder-color);
     }
+}
+
+.label {
+    color: var(--input-placeholder-color);
+    position: absolute;
+    left: 8px;
+    top: -8px;
+    font-size: 14px;
 }
 
 .compact {

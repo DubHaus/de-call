@@ -29,7 +29,7 @@ const Login = () => {
                         placeholder="Password"
                     />
                     <Flex gap={20}>
-                        <Button icon="check">Login</Button>
+                        <Button>Login</Button>
                         <Link>Sign up</Link>
                     </Flex>
                 </Modal>
