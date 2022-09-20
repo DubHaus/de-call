@@ -1,11 +1,11 @@
 import {IsEmail, MinLength} from 'class-validator';
-import {User} from 'src/entity/User';
 import {Field, InputType, ObjectType} from 'type-graphql';
+import {User} from '../../entity/User';
 
 @InputType({description: 'New user'})
 export class CreateUserInput implements Partial<User> {
     @Field()
-    @IsEmail()
+    @IsEmail({}, {message: 'Email is not valid'})
     email: string;
 
     @Field()
@@ -22,7 +22,6 @@ export class CreateUserInput implements Partial<User> {
 @InputType({description: 'New user'})
 export class LoginUserInput implements Partial<User> {
     @Field()
-    @IsEmail()
     email: string;
 
     @Field()

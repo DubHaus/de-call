@@ -1,24 +1,57 @@
-import {Field, ID, ObjectType} from 'type-graphql';
-import {Entity, PrimaryGeneratedColumn, Column, BaseEntity} from 'typeorm';
+import {Field, ID, ObjectType, registerEnumType} from 'type-graphql';
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    BaseEntity,
+    OneToOne,
+    JoinColumn,
+} from 'typeorm';
+import {Profile} from './Profile';
+
+export enum UserRole {
+    EDITOR = 'editor',
+    READER = 'reader',
+}
+
+registerEnumType(UserRole, {
+    name: 'UserRole', // this one is mandatory
+    description: 'User role', // this one is optional
+});
 
 @Entity('users')
 @ObjectType()
 export class User extends BaseEntity {
     @Field(() => ID)
-    @PrimaryGeneratedColumn()
-    readonly id: number;
+    @PrimaryGeneratedColumn('uuid')
+    readonly id: string;
+
+    @Field(() => UserRole)
+    @Column({type: 'enum', enum: UserRole, default: UserRole.READER})
+    role: UserRole;
+
+    @Field(() => Profile, {nullable: true})
+    @OneToOne(() => Profile, {
+        nullable: true,
+    })
+    @JoinColumn()
+    profile?: Profile;
 
     @Field()
-    @Column()
+    @Column({length: 100})
     firstName: string;
 
     @Field({nullable: true, defaultValue: ''})
-    @Column({nullable: true, default: ''})
+    @Column({nullable: true, default: '', length: 100})
     lastName?: string;
 
     @Field()
-    @Column()
+    @Column({length: 100, unique: true})
     email: string;
+
+    @Field({defaultValue: false})
+    @Column({default: false})
+    emailVerified: boolean;
 
     @Column()
     password: string;

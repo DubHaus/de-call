@@ -9,15 +9,15 @@ import {User} from './entity/User';
 import {createAccessToken, createRefreshToken} from './utils/auth';
 import {sendRefreshToken} from './utils/sendRereshToken';
 import cors from 'cors';
-import schema from './shema';
+import {createSchema} from './schema';
 
 (async () => {
     const app = express();
     app.use(cookieParser());
     app.use(
         cors({
-            origin: 'http://localhost:3000',
-            credentials: true,
+            // origin: 'http://localhost:3000',
+            // credentials: true,
         })
     );
 
@@ -57,7 +57,7 @@ import schema from './shema';
     await AppDataSource.initialize();
 
     const apolloServer = new ApolloServer({
-        schema,
+        schema: await createSchema(),
         context: ({req, res}) => ({
             req,
             res,

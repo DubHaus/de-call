@@ -1,12 +1,13 @@
 import {verify} from 'jsonwebtoken';
 import {MyContext} from '../ts-types/context';
 import {MiddlewareFn} from 'type-graphql';
+import {AuthenticationError} from 'apollo-server-express';
 
 export const isAuth: MiddlewareFn<MyContext> = ({context}, next) => {
     const authorization = context.req.headers['authorization'];
 
     if (!authorization) {
-        throw new Error('not authenticated');
+        throw new AuthenticationError('not authenticated');
     }
     try {
         const token = authorization.split(' ')[1];
@@ -17,7 +18,7 @@ export const isAuth: MiddlewareFn<MyContext> = ({context}, next) => {
         context.currentUser = payload;
     } catch (err) {
         console.log(err);
-        throw new Error('not authenticated');
+        throw new AuthenticationError('not authenticated');
     }
 
     return next();
