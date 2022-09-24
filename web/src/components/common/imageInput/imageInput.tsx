@@ -4,8 +4,6 @@ import Container from '../container';
 import Icon from '../icon';
 import styles from './style.module.scss';
 
-type Props = {};
-
 const ImageInput = () => {
     const [file, setFile] = useState<File | null>(null);
     const [preview, setPreview] = useState('');

@@ -12,27 +12,27 @@ import {refreshAccessToken} from 'src/utils/accessToken';
 import Loader from 'src/components/common/loader';
 
 const App = ({Component, pageProps}: AppProps) => {
-    // const apolloClient = useApollo(pageProps);
+    const apolloClient = useApollo(pageProps);
 
-    // const [loading, setLoading] = useState(true);
-    // useEffect(() => {
-    //     refreshAccessToken().finally(() => setLoading(false));
-    // }, []);
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        refreshAccessToken().finally(() => setLoading(false));
+    }, []);
 
-    // if (loading) {
-    //     return <Loader loading={loading} />;
-    // }
+    if (loading) {
+        return <Loader loading={loading} />;
+    }
 
     return (
-        <Container className={styles.container}>
-            <Component {...pageProps} />
-        </Container>
-        // <ApolloProvider client={apolloClient}>
-        // <Link href="/profile">Profile</Link>
-        // <Link href="/signup">Sign up</Link>
-        // <Link href="/login">Login</Link>
-        // <Link href="/">Home</Link>
-        // </ApolloProvider>
+        <ApolloProvider client={apolloClient}>
+            <Link href="/profile">Profile</Link>
+            <Link href="/signup">Sign up</Link>
+            <Link href="/login">Login</Link>
+            <Link href="/">Home</Link>
+            <Container className={styles.container}>
+                <Component {...pageProps} />
+            </Container>
+        </ApolloProvider>
     );
 };
 

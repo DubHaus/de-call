@@ -6,7 +6,7 @@ import Caption from '../typography/caption';
 import styles from './button.module.scss';
 
 type Props = {
-    children: ReactNode;
+    children?: ReactNode;
     icon?: IconType;
     type?: 'primary' | 'secondary' | 'negative' | 'alt';
     submit?: boolean;
@@ -24,11 +24,15 @@ const Button = ({
         type={submit ? 'submit' : 'button'}
         className={`${styles.button} ${styles[type]} ${
             disabled && styles.disabled
-        }`}>
-        <Flex gap={10}>
-            <Caption>{children}</Caption>
-            {icon ? <Icon className={styles.icon} icon={icon} /> : null}
-        </Flex>
+        } ${!children && styles.iconOnly}`}>
+        {children ? (
+            <Flex gap={10}>
+                <Caption>{children}</Caption>
+                {icon ? <Icon className={styles.icon} icon={icon} /> : null}
+            </Flex>
+        ) : icon ? (
+            <Icon className={styles.icon} icon={icon} />
+        ) : null}
     </button>
 );
 

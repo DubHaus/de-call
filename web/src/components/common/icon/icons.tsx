@@ -30,6 +30,8 @@ import MicrophoneMuted from 'public/icons/microphone-muted.svg';
 import VideoOff from 'public/icons/video-off.svg';
 import Filter from 'public/icons/filter.svg';
 import Close from 'public/icons/close.svg';
+import Left from 'public/icons/left.svg';
+import Right from 'public/icons/right.svg';
 
 const icons = {
     'add-photo': AddPhoto,
@@ -64,6 +66,8 @@ const icons = {
     'microphone-muted': MicrophoneMuted,
     filter: Filter,
     close: Close,
+    left: Left,
+    right: Right,
 };
 
 export default icons;

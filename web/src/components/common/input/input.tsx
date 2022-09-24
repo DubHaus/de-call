@@ -36,7 +36,7 @@ const Input = ({
             compact && styles.compact
         }  ${className} ${altBackground && styles.altBackground} `}>
         {label && value && <label className={styles.label}>{label}</label>}
-        <Flex gap={10}>
+        <Flex inline gap={10}>
             {left && <Container>{left}</Container>}
             <input
                 {...props}

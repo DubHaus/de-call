@@ -3,6 +3,11 @@
     cursor: pointer;
     border-radius: var(--radius);
     height: 44px;
+    width: fit-content;
+}
+
+.iconOnly {
+    padding: 12px;
 }
 
 .primary {

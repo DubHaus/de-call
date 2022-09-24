@@ -10,6 +10,7 @@ type Props = {
     direction?: 'row' | 'column';
     className?: string;
     wrap?: boolean;
+    inline?: boolean;
 };
 
 const Flex = ({
@@ -20,10 +21,15 @@ const Flex = ({
     direction = 'row',
     className = '',
     wrap = false,
+    inline = false,
 }: Props) => (
     <Container
-        style={{gap, flexWrap: wrap ? 'wrap' : 'nowrap'}}
-        className={`${styles.flex} ${styles[`align-${align}`]} ${
+        style={{
+            gap,
+            flexWrap: wrap ? 'wrap' : 'nowrap',
+            display: inline ? 'inline-flex' : 'flex',
+        }}
+        className={`${styles[`align-${align}`]} ${
             styles[`justify-${justify}`]
         } ${styles[`${direction}`]} ${className}`}>
         {children}

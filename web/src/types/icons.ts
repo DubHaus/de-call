@@ -28,4 +28,6 @@ export type IconType =
     | 'instagram'
     | 'filter'
     | 'close'
-    | 'microphone-muted';
+    | 'microphone-muted'
+    | 'left'
+    | 'right';

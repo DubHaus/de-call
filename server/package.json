@@ -35,6 +35,7 @@
     "typeorm": "0.3.9"
   },
   "scripts": {
+    "start-server": "ts-node src/index.ts",
     "start": "nodemon --exec ts-node src/index.ts",
     "db:setup": "ts-node ./src/test-utility/setup.ts",
     "test": "npm run db:setup && jest --watch"

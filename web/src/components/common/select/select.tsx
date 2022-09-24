@@ -5,7 +5,7 @@ import Input from '../input';
 import Icon from '../icon';
 import {useOutsideClick} from 'src/hooks/utilsHooks';
 
-type Option = {
+export type SelectOption = {
     value: string;
     title: string;
 };
@@ -16,8 +16,10 @@ type Props = {
     name?: string;
     onChange?: (value: string) => void;
     placeholder?: string;
-    options: Option[];
+    options: SelectOption[];
     className?: string;
+    hideIndicator?: boolean;
+    altBackground?: boolean;
 };
 
 const Select = ({
@@ -28,6 +30,8 @@ const Select = ({
     placeholder = '',
     onChange,
     options,
+    altBackground,
+    hideIndicator = false,
 }: Props) => {
     const [showDropdown, setShowDropdown] = useState(false);
     const onSelect = (option: string) => {
@@ -44,24 +48,29 @@ const Select = ({
                 value={value}
                 name={name}
                 clearable
+                altBackground={altBackground}
+                className={styles.input}
                 label={label}
                 placeholder={placeholder}
+                onChange={onChange}
                 onFocus={() => setShowDropdown(true)}
                 right={
-                    <Icon
-                        onClick={() => setShowDropdown(!showDropdown)}
-                        className={`${styles.icon} ${
-                            showDropdown && styles.rotate
-                        }`}
-                        icon="down"
-                    />
+                    !hideIndicator ? (
+                        <Icon
+                            onClick={() => setShowDropdown(!showDropdown)}
+                            className={`${styles.icon} ${
+                                showDropdown && styles.rotate
+                            }`}
+                            icon="down"
+                        />
+                    ) : null
                 }
             />
             {showDropdown ? (
                 <Container className={styles.options}>
                     {options.map(({title, value: option}) => (
                         <Container
-                            onClick={() => onSelect(value)}
+                            onClick={() => onSelect(option)}
                             className={`${styles.option} ${
                                 value === option && styles.active
                             }`}>
