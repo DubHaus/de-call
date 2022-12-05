@@ -1,4 +1,17 @@
 .text {
     font-size: 16px;
     font-weight: 400;
+    color: var(--primary-color);
+}
+
+.bold {
+    font-weight: 600;
+}
+
+.compact {
+    font-size: 14px;
+}
+
+.light {
+    color: var(--dark-grey);
 }

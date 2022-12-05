@@ -14,7 +14,8 @@ interface Props {
     from?: string;
     until?: string;
     step?: number;
-    altBackground?:boolean
+    altBackground?: boolean;
+    compact?: boolean;
 }
 
 const TimeInput = ({
@@ -28,6 +29,7 @@ const TimeInput = ({
     until = '24:00',
     step = 15,
     altBackground,
+    compact = false
 }: Props) => {
     const timeOptions = useMemo(() => {
         const startIdx = generateIdxFromTime(from, step);
@@ -48,13 +50,14 @@ const TimeInput = ({
         <Select
             value={value}
             onChange={onChange}
-            className={`${className} ${styles.container}`}
+            className={`${className} ${styles.container} ${compact && styles.compact}`}
             label={label}
             altBackground={altBackground}
             name={name}
             placeholder={placeholder}
-            // hideIndicator
+            hideIndicator
             options={timeOptions}
+            compact={compact}
         />
     );
 };

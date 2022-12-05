@@ -5,26 +5,27 @@
     top: 0;
     width: 100vw;
     height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
+    z-index: 2;
+    overflow-y: scroll;
 }
 
 .container {
     background: var(--app-alt-background);
     border-radius: var(--radius);
-    padding: 50px;
     position: relative;
     width: 600px;
     min-height: 300px;
+    padding: 25px 40px;
+    margin: auto;
+    top: 10%;
 }
 
 .close {
-    position: absolute;
-    right: 20px;
-    top: 20px;
     width: 24px;
     height: 24px;
     color: var(--dark-grey);
+}
+
+.content {
+    width: 100%;
 }

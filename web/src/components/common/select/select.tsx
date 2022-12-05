@@ -1,14 +1,10 @@
-import {useRef, useState} from 'react';
+import {useEffect, useMemo, useRef, useState} from 'react';
 import Container from '../container';
 import styles from './select.module.scss';
 import Input from '../input';
 import Icon from '../icon';
 import {useOutsideClick} from 'src/hooks/utilsHooks';
-
-export type SelectOption = {
-    value: string;
-    title: string;
-};
+import Option, {SelectOption} from './components/option';
 
 type Props = {
     value?: string;
@@ -20,6 +16,8 @@ type Props = {
     className?: string;
     hideIndicator?: boolean;
     altBackground?: boolean;
+    compact?: boolean;
+    clearable?: boolean;
 };
 
 const Select = ({
@@ -32,32 +30,68 @@ const Select = ({
     options,
     altBackground,
     hideIndicator = false,
+    compact = false,
+    clearable = false,
 }: Props) => {
+    const ref = useRef<HTMLDivElement>(null);
+
     const [showDropdown, setShowDropdown] = useState(false);
+    const [search, setSearch] = useState('');
+    const [searchActive, setSearchActive] = useState(false);
+
     const onSelect = (option: string) => {
-        setShowDropdown(false);
         onChange && onChange(option);
+        closeDropdown();
     };
 
-    const ref = useRef<HTMLDivElement>(null);
-    useOutsideClick(ref, () => setShowDropdown(false));
+    const openDropdown = () => {
+        setShowDropdown(true);
+        setSearchActive(true);
+        ref.current?.focus();
+    };
+
+    const closeDropdown = () => {
+        setShowDropdown(false);
+        setSearchActive(false);
+        setSearch('');
+    };
+
+    const optionsToShow = useMemo(
+        () =>
+            options.filter(el =>
+                el.title.toLowerCase().includes(search.toLowerCase())
+            ),
+        [search, options]
+    );
+
+    const valueStr = useMemo(
+        () => options.find(el => el.value === value)?.title,
+        [options, value]
+    );
+
+    useOutsideClick(ref, closeDropdown);
 
     return (
         <Container ref={ref} className={`${styles.container} ${className}`}>
             <Input
-                value={value}
+                value={searchActive ? search : valueStr}
                 name={name}
-                clearable
+                clearable={clearable}
                 altBackground={altBackground}
                 className={styles.input}
                 label={label}
-                placeholder={placeholder}
-                onChange={onChange}
-                onFocus={() => setShowDropdown(true)}
+                placeholder={placeholder || (searchActive && valueStr) || ''}
+                onChange={value => {
+                    setSearch(value);
+                }}
+                onFocus={openDropdown}
+                compact={compact}
                 right={
                     !hideIndicator ? (
                         <Icon
-                            onClick={() => setShowDropdown(!showDropdown)}
+                            onClick={
+                                showDropdown ? closeDropdown : openDropdown
+                            }
                             className={`${styles.icon} ${
                                 showDropdown && styles.rotate
                             }`}
@@ -68,14 +102,13 @@ const Select = ({
             />
             {showDropdown ? (
                 <Container className={styles.options}>
-                    {options.map(({title, value: option}) => (
-                        <Container
-                            onClick={() => onSelect(option)}
-                            className={`${styles.option} ${
-                                value === option && styles.active
-                            }`}>
-                            {title}
-                        </Container>
+                    {optionsToShow.map(option => (
+                        <Option
+                            key={option.value}
+                            {...option}
+                            select={onSelect}
+                            selected={value === option.value}
+                        />
                     ))}
                 </Container>
             ) : null}

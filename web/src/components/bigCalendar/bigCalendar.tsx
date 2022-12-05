@@ -1,4 +1,4 @@
-import {ReactNode, useEffect, useMemo, useState} from 'react';
+import {ReactNode, useMemo} from 'react';
 import {getDaysInMonth} from 'src/utils/date';
 import Button from '../common/button';
 import Container from '../common/container';
@@ -6,7 +6,7 @@ import Dropdown from '../common/dropdown';
 import Flex from '../common/flex';
 import Select, {SelectOption} from '../common/select/select';
 import Text from '../common/typography/text';
-import styles from './calendar.module.scss';
+import styles from './bigCalendar.module.scss';
 
 const months = [
     {title: 'January', value: '0'},
@@ -26,18 +26,17 @@ const months = [
 const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 type Props = {
-    date: Date;
-    onChange?: (date: Date) => void;
+    date?: Date;
+    headerRight?: ReactNode;
 };
 
-const Calendar = ({date, onChange}: Props) => {
+const BigCalendar = ({date = new Date(), headerRight}: Props) => {
     const currentYear = date.getFullYear();
     const currentMonth = date.getMonth();
-    const currentDate = date.getDate();
     const years = useMemo(() => {
-        const years = Array.from(Array(100).keys()).map(idx => ({
-            value: `${idx + currentYear - 10}`,
-            title: `${idx + currentYear - 10}`,
+        const years = Array.from(Array(10).keys()).map(idx => ({
+            value: `${idx + currentYear}`,
+            title: `${idx + currentYear}`,
         })) as SelectOption[];
         return years;
     }, [currentYear]);
@@ -64,33 +63,28 @@ const Calendar = ({date, onChange}: Props) => {
             };
         });
 
-        const prevMonthDays = currentMonthDays[0].weekDay
-            ? Array.from(Array(currentMonthDays[0].weekDay).keys())
+        const prevMonthDays = hasPrevMonth
+            ? Array.from(Array(currentMonthDays[0].weekDay - 1).keys())
                   .reverse()
                   .map(idx => {
-                      if (hasPrevMonth) {
-                          const date = new Date(
-                              `${currentMonth}.${
-                                  prevMonthDaysCount - idx
-                              }.${currentYear}`
-                          );
-                          return {
-                              date,
-                              day: date.getDate(),
-                              weekDay: date.getDay(),
-                              currentMonth: false,
-                          };
-                      } else return {};
+                      const date = new Date(
+                          `${currentMonth}.${
+                              prevMonthDaysCount - idx
+                          }.${currentYear}`
+                      );
+                      return {
+                          date,
+                          day: date.getDate(),
+                          weekDay: date.getDay(),
+                          currentMonth: false,
+                      };
                   })
             : [];
 
         const nextMonthDays = hasNextMonth
             ? Array.from(
                   Array(
-                      7 -
-                          currentMonthDays[currentMonthDays.length - 1]
-                              .weekDay -
-                          1
+                      7 - currentMonthDays[currentMonthDays.length - 1].weekDay
                   ).keys()
               ).map(idx => {
                   const date = new Date(
@@ -109,51 +103,49 @@ const Calendar = ({date, onChange}: Props) => {
     }, [currentYear, currentMonth]);
 
     return (
-        <Container className={styles.container} gap={25}>
-            <Flex gap={10}>
-                <Button transparentBg icon="left" />
-                <Select
-                    onChange={month => {
-                        onChange &&
-                            onChange(
-                                new Date(
-                                    `${
-                                        Number(month) + 1
-                                    }.${currentDate}.${currentYear}`
-                                )
-                            );
-                    }}
-                    options={months}
-                    value={`${currentMonth}`}
-                />
-                <Select
-                    onChange={year => {
-                        onChange &&
-                            onChange(
-                                new Date(
-                                    `${currentMonth + 1}.${currentDate}.${year}`
-                                )
-                            );
-                    }}
-                    options={years}
-                    value={`${currentYear}`}
-                />
-                <Button transparentBg icon="right" />
+        <Container gap={25}>
+            <Flex justify="between">
+                <Flex gap={30}>
+                    <Button transparentBg icon="left" />
+                    <Select options={months} value={`${currentMonth}`} />
+                    <Select options={years} value={`${currentYear}`} />
+                    <Button transparentBg icon="right" />
+                </Flex>
+                {headerRight}
             </Flex>
-            <Container className={styles.calendar}>
+            <Container className={styles.container}>
                 {weekDays.map(day => (
-                    <Container className={styles.weekDayName}>
+                    <Container key={day} className={styles.weekDayName}>
                         <Text light>{day}</Text>
                     </Container>
                 ))}
                 {days.map(({day, currentMonth}) => (
                     <Container
+                        key={`${day}-${currentMonth}`}
                         className={`${
                             styles[
                                 currentMonth ? 'currentMonth' : 'otherMonths'
                             ]
-                        } ${styles.day} ${!day && styles.empty}`}>
-                        <Text className={styles.dayText}>{day}</Text>
+                        } ${styles.day}`}>
+                        <Text className={styles.dayText} bold>
+                            {day}
+                        </Text>
+                        {currentMonth ? (
+                            <Container>
+                                <Text
+                                    className={styles.plannedDate}
+                                    light
+                                    compact>
+                                    9:30 - 14:00
+                                </Text>
+                                <Text
+                                    className={styles.plannedDate}
+                                    light
+                                    compact>
+                                    15:20 - 18:00
+                                </Text>
+                            </Container>
+                        ) : null}
                     </Container>
                 ))}
             </Container>
@@ -161,4 +153,4 @@ const Calendar = ({date, onChange}: Props) => {
     );
 };
 
-export default Calendar;
+export default BigCalendar;

@@ -30,4 +30,6 @@ export type IconType =
     | 'close'
     | 'microphone-muted'
     | 'left'
-    | 'right';
+    | 'right'
+    | 'delete'
+    | 'edit';

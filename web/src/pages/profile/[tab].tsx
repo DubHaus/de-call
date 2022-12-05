@@ -3,11 +3,12 @@ import {useMemo} from 'react';
 import Container from 'src/components/common/container';
 import Title from 'src/components/common/typography/title';
 import Layout from 'src/components/layout';
-// import {useGetCurrentUserQuery} from 'generated/graphql';
+import PageContainer from 'src/components/pageContainer';
 import Tabs from 'src/components/tabs';
 import Tab from 'src/components/tabs/tab';
 import Profile from './components/profile';
 import Schedule from './components/schedule';
+import styles from './tab.module.scss';
 
 const TabsInfo = {
     profile: {
@@ -37,17 +38,21 @@ const ProfilePage = () => {
 
     return (
         <Layout>
-            <Container>
-                <Title level="h2">{title}</Title>
-            </Container>
-            <Tabs>
-                {Object.values(TabsInfo).map(({tab, title}) => (
-                    <Tab key={tab} tab={tab} active={tab === activeTab}>
-                        {title}
-                    </Tab>
-                ))}
-            </Tabs>
-            <Component />
+            <PageContainer>
+                <Title className={styles.title} level="h2">
+                    {title}
+                </Title>
+                <Container className={styles.tabs}>
+                    <Tabs>
+                        {Object.values(TabsInfo).map(({tab, title}) => (
+                            <Tab key={tab} tab={tab} active={tab === activeTab}>
+                                {title}
+                            </Tab>
+                        ))}
+                    </Tabs>
+                </Container>
+                <Component />
+            </PageContainer>
         </Layout>
     );
 };

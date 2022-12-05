@@ -25,10 +25,6 @@ const App = ({Component, pageProps}: AppProps) => {
 
     return (
         <ApolloProvider client={apolloClient}>
-            <Link href="/profile">Profile</Link>
-            <Link href="/signup">Sign up</Link>
-            <Link href="/login">Login</Link>
-            <Link href="/">Home</Link>
             <Container className={styles.container}>
                 <Component {...pageProps} />
             </Container>

@@ -38,3 +38,41 @@
     width: 20px;
     height: 20px;
 }
+
+.transparentBg {
+    background: none;
+    color: var(--primary-color);
+    box-shadow: none;
+}
+
+.iconOnly {
+    padding: 0;
+    height: 30px;
+    width: 30px;
+
+    .icon {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+.iconOnly.compact {
+    padding: 5px;
+    height: 30px;
+    width: 30px;
+
+    .icon {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+.compact {
+    padding: 10px;
+    height: 37px;
+
+    .icon {
+        width: 17px;
+        height: 17px;
+    }
+}

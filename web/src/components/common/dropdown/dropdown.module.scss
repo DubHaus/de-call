@@ -9,8 +9,9 @@
     left: 0px;
     width: 100%;
     box-shadow: var(--default-shadow);
-    max-height: 230px;
+    max-height: 300px;
     overflow-y: scroll;
+
     -ms-overflow-style: none; /* Internet Explorer 10+ */
     scrollbar-width: none; /* Firefox */
     &::-webkit-scrollbar {
@@ -47,6 +48,7 @@
     }
 }
 
-.input {
+.value {
     width: 100%;
+    cursor: pointer;
 }

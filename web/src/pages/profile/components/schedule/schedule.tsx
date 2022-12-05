@@ -1,143 +1,65 @@
 import {useState} from 'react';
+import BigCalendar from 'src/components/bigCalendar/bigCalendar';
+import Calendar from 'src/components/calendar';
 import Button from 'src/components/common/button';
 import Container from 'src/components/common/container';
 import Flex from 'src/components/common/flex';
-import TimeInput from 'src/components/common/timeInput';
-import Text from 'src/components/common/typography/text';
+import Modal from 'src/components/common/modal';
+import Title from 'src/components/common/typography/title';
+import Overwrite from './components/overwrite';
+import OverwriteDatesModal from './components/overwriteDatesModal';
+import WeekDay from './components/weekDay';
 import styles from './schedule.module.scss';
 
 const Schedule = () => {
-    const [timeFrom, setTimeFrom] = useState('');
-    const [timeUntil, setTimeUntil] = useState('');
+    const [showModal, setShowModal] = useState(false);
     return (
-        <Container>
-        <Container gap={20}>
-            <Container className={styles.weekday}>
-                <Flex gap={15}>
-                    <Text>Sunday</Text>
-                    <Text>Unavalible</Text>
-                    <Button icon="plus" />
-                </Flex>
+        <Flex align="start" justify="between" gap={20}>
+            <Container>
+                <Container className={styles.fieldsContainer}>
+                    <Container className={styles.fieldHeader}>
+                        <Title className={styles.title} level="h3">
+                            Weekdays
+                        </Title>
+                    </Container>
+                    <Container gap={20}>
+                        <WeekDay day="Sunday" />
+                        <WeekDay day="Monday" />
+                        <WeekDay day="Tuesday" />
+                        <WeekDay day="Wednesday" />
+                        <WeekDay day="Thursday" />
+                        <WeekDay day="Friday" />
+                        <WeekDay day="Saturday" />
+                    </Container>
+                </Container>
+                <Container className={styles.fieldsContainer}>
+                    <Container className={styles.fieldHeader}>
+                        <Flex align="center" justify="between">
+                            <Title className={styles.title} level="h3">
+                                Date overwrites
+                            </Title>
+                            <Flex gap={10}>
+                                <Button compact icon="plus" />
+                                <Button transparentBg icon="delete" />
+                            </Flex>
+                        </Flex>
+                    </Container>
+                    <Overwrite />
+                </Container>
             </Container>
-
-            <Container className={styles.weekday}>
-                <Flex gap={15}>
-                    <Text>Monday</Text>
-                    <Flex gap={15}>
-                        <TimeInput
-                            from="9:00"
-                            altBackground
-                            value={timeFrom}
-                            onChange={setTimeFrom}
-                        />
-                        <TimeInput
-                            from="12:00"
-                            altBackground
-                            value={timeUntil}
-                            onChange={setTimeUntil}
-                        />
-                    </Flex>
-                    <Button icon="plus" />
-                </Flex>
+            <Container>
+                <BigCalendar
+                    headerRight={
+                        <Button onClick={() => setShowModal(true)}>
+                            Add a date overwrite
+                        </Button>
+                    }
+                />
             </Container>
-            {/* <Container className={styles.weekday}>
-                <Flex>
-                    <Text>Tuesday</Text>
-                    <Flex gap={15}>
-                        <TimeInput
-                            from="9:00"
-                            value={timeFrom}
-                            onChange={setTimeFrom}
-                        />
-                        <TimeInput
-                            from="12:00"
-                            value={timeUntil}
-                            onChange={setTimeUntil}
-                        />
-                    </Flex>
-                    <Button icon="plus" />
-                </Flex>
-            </Container>
-            <Container className={styles.weekday}>
-                <Flex>
-                    <Text>Wednesday</Text>
-                    <Flex gap={15}>
-                        <TimeInput
-                            from="9:00"
-                            value={timeFrom}
-                            onChange={setTimeFrom}
-                        />
-                        <TimeInput
-                            from="12:00"
-                            value={timeUntil}
-                            onChange={setTimeUntil}
-                        />
-                    </Flex>
-                    <Button icon="plus" />
-                </Flex>
-            </Container>
-            <Container className={styles.weekday}>
-                <Flex>
-                    <Text>Thuesday</Text>
-                    <Flex gap={15}>
-                        <TimeInput
-                            from="9:00"
-                            value={timeFrom}
-                            onChange={setTimeFrom}
-                        />
-                        <TimeInput
-                            from="12:00"
-                            value={timeUntil}
-                            onChange={setTimeUntil}
-                        />
-                    </Flex>
-                    <Button icon="plus" />
-                </Flex>
-            </Container>
-            <Container className={styles.weekday}>
-                <Flex>
-                    <Text>Friday</Text>
-                    <Flex gap={15}>
-                        <TimeInput
-                            from="9:00"
-                            value={timeFrom}
-                            onChange={setTimeFrom}
-                        />
-                        <TimeInput
-                            from="12:00"
-                            value={timeUntil}
-                            onChange={setTimeUntil}
-                        />
-                    </Flex>
-                    <Button icon="plus" />
-                </Flex>
-            </Container>
-            <Container className={styles.weekday}>
-                <Flex gap={15}>
-                    <Text>Saturday</Text>
-                    <Flex gap={15}>
-                        <TimeInput
-                            altBackground
-                            from="9:00"
-                            value={timeFrom}
-                            onChange={setTimeFrom}
-                        />
-                        <TimeInput
-                            altBackground
-                            from="12:00"
-                            value={timeUntil}
-                            onChange={setTimeUntil}
-                        />
-                    </Flex>
-                    <Button icon="plus" />
-                </Flex>
-            </Container> */}
-        </Container>
-        <Container>
-            
-        </Container>
-
-        </Container>
+            {showModal ? (
+                <OverwriteDatesModal setShowModal={setShowModal} />
+            ) : null}
+        </Flex>
     );
 };
 

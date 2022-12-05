@@ -11,6 +11,10 @@ type Props = {
     type?: 'primary' | 'secondary' | 'negative' | 'alt';
     submit?: boolean;
     disabled?: boolean;
+    transparentBg?: boolean;
+    compact?: boolean;
+    onClick?: () => void;
+    className?: string;
 };
 
 const Button = ({
@@ -19,12 +23,19 @@ const Button = ({
     type = 'primary',
     disabled = false,
     submit = false,
+    transparentBg = false,
+    onClick,
+    compact = false,
+    className = '',
 }: Props) => (
     <button
+        onClick={onClick}
         type={submit ? 'submit' : 'button'}
         className={`${styles.button} ${styles[type]} ${
             disabled && styles.disabled
-        } ${!children && styles.iconOnly}`}>
+        } ${!children && styles.iconOnly} ${
+            transparentBg && styles.transparentBg
+        } ${compact && styles.compact} ${className}`}>
         {children ? (
             <Flex gap={10}>
                 <Caption>{children}</Caption>

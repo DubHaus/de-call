@@ -1,0 +1,45 @@
+.container {
+    width: fit-content;
+}
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 40px);
+    gap: 10px;
+}
+
+.day {
+    border-radius: var(--radius);
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    cursor: pointer;
+}
+
+.empty {
+    cursor: auto;
+}
+
+.dayText {
+    text-align: center;
+}
+
+.currentMonth {
+    // background: var(--action-color-2);
+}
+
+.otherMonths {
+    background: var(--alt-color);
+
+    .dayText {
+        color: var(--dark-grey);
+    }
+}
+
+.plannedDate {
+    margin: 10px 0;
+}
+
+.weekDayName {
+    justify-self: center;
+    margin: 10px 0;
+}

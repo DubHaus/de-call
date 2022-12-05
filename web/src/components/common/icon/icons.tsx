@@ -32,6 +32,8 @@ import Filter from 'public/icons/filter.svg';
 import Close from 'public/icons/close.svg';
 import Left from 'public/icons/left.svg';
 import Right from 'public/icons/right.svg';
+import Delete from 'public/icons/delete.svg';
+import Edit from 'public/icons/edit.svg';
 
 const icons = {
     'add-photo': AddPhoto,
@@ -68,6 +70,8 @@ const icons = {
     close: Close,
     left: Left,
     right: Right,
+    delete: Delete,
+    edit: Edit,
 };
 
 export default icons;
