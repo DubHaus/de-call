@@ -2,7 +2,6 @@ import 'reflect-metadata';
 import {DataSource} from 'typeorm';
 import {Category} from './entity/catalogs/Category';
 import {Profile} from './entity/Profile';
-import {Socials} from './entity/Socials';
 import {User} from './entity/User';
 
 export const AppDataSource = new DataSource({
@@ -14,7 +13,7 @@ export const AppDataSource = new DataSource({
     database: 'hoppon',
     synchronize: true,
     logging: false,
-    entities: [User, Profile, Socials, Category],
+    entities: [User, Profile, Category],
     migrations: [],
     subscribers: [],
     uuidExtension: 'pgcrypto',

@@ -1,6 +1,5 @@
 import {useEffect, useMemo, useRef, useState} from 'react';
 import Container from '../container';
-import styles from './select.module.scss';
 import Input from '../input';
 import Icon from '../icon';
 import {useOutsideClick} from 'src/hooks/utilsHooks';
@@ -14,9 +13,6 @@ type Props = {
     placeholder?: string;
     options: SelectOption[];
     className?: string;
-    hideIndicator?: boolean;
-    altBackground?: boolean;
-    compact?: boolean;
     clearable?: boolean;
 };
 
@@ -28,9 +24,6 @@ const Select = ({
     placeholder = '',
     onChange,
     options,
-    altBackground,
-    hideIndicator = false,
-    compact = false,
     clearable = false,
 }: Props) => {
     const ref = useRef<HTMLDivElement>(null);
@@ -72,36 +65,30 @@ const Select = ({
     useOutsideClick(ref, closeDropdown);
 
     return (
-        <Container ref={ref} className={`${styles.container} ${className}`}>
+        <Container ref={ref} className={`relative ${className}`}>
             <Input
                 value={searchActive ? search : valueStr}
                 name={name}
                 clearable={clearable}
-                altBackground={altBackground}
-                className={styles.input}
+                className=""
                 label={label}
                 placeholder={placeholder || (searchActive && valueStr) || ''}
                 onChange={value => {
                     setSearch(value);
                 }}
                 onFocus={openDropdown}
-                compact={compact}
                 right={
-                    !hideIndicator ? (
-                        <Icon
-                            onClick={
-                                showDropdown ? closeDropdown : openDropdown
-                            }
-                            className={`${styles.icon} ${
-                                showDropdown && styles.rotate
-                            }`}
-                            icon="down"
-                        />
-                    ) : null
+                    <Icon
+                        onClick={showDropdown ? closeDropdown : openDropdown}
+                        className={` w-5 h-5 text-slate-400 ${
+                            showDropdown && 'rotate-180'
+                        }`}
+                        icon="down"
+                    />
                 }
             />
-            {showDropdown ? (
-                <Container className={styles.options}>
+            {showDropdown && optionsToShow.length ? (
+                <Container className="absolute left-0 top-[52px] border border-slate-400 rounded w-full">
                     {optionsToShow.map(option => (
                         <Option
                             key={option.value}

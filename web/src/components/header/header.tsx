@@ -1,23 +1,18 @@
 import Container from 'src/components/common/container';
 import Flex from 'src/components/common/flex';
 import Login from 'src/components/login';
-import Logo from './components/logo';
-import MenuButton from './components/menuButton';
 import styles from './header.module.scss';
 
 type Props = {
-    active: boolean;
-    setActive: (val: boolean) => void;
+    className?: string;
+    title?: string;
 };
 
-const Header = ({active, setActive}: Props) => {
+const Header = ({className, title}: Props) => {
     return (
-        <Container className={styles.header}>
+        <Container className={`p-5 ${className}`}>
             <Flex justify="between">
-                <Flex gap={10}>
-                    <MenuButton active={active} onChange={setActive} />
-                    <Logo />
-                </Flex>
+                <h1 className="text-xl font-semibold">{title}</h1>
                 <Container className={styles.login}>
                     <Login />
                 </Container>

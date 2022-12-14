@@ -106,10 +106,10 @@ const BigCalendar = ({date = new Date(), headerRight}: Props) => {
         <Container gap={25}>
             <Flex justify="between">
                 <Flex gap={30}>
-                    <Button transparentBg icon="left" />
+                    <Button type="ghost" icon="left" />
                     <Select options={months} value={`${currentMonth}`} />
                     <Select options={years} value={`${currentYear}`} />
-                    <Button transparentBg icon="right" />
+                    <Button type="ghost" icon="right" />
                 </Flex>
                 {headerRight}
             </Flex>

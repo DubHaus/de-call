@@ -1,11 +1,11 @@
-import {Field, ID, ObjectType, registerEnumType} from 'type-graphql';
+import {Field, ObjectType, registerEnumType} from 'type-graphql';
 import {
     Entity,
-    PrimaryGeneratedColumn,
     Column,
     BaseEntity,
     OneToOne,
     JoinColumn,
+    PrimaryColumn,
 } from 'typeorm';
 import {Profile} from './Profile';
 
@@ -22,13 +22,9 @@ registerEnumType(UserRole, {
 @Entity('users')
 @ObjectType()
 export class User extends BaseEntity {
-    @Field(() => ID)
-    @PrimaryGeneratedColumn('uuid')
-    readonly id: string;
-
-    @Field(() => UserRole)
-    @Column({type: 'enum', enum: UserRole, default: UserRole.READER})
-    role: UserRole;
+    @Field()
+    @PrimaryColumn({length: 32, unique: true})
+    username: string;
 
     @Field(() => Profile, {nullable: true})
     @OneToOne(() => Profile, {
@@ -36,14 +32,6 @@ export class User extends BaseEntity {
     })
     @JoinColumn()
     profile?: Profile;
-
-    @Field()
-    @Column({length: 100})
-    firstName: string;
-
-    @Field({nullable: true, defaultValue: ''})
-    @Column({nullable: true, default: '', length: 100})
-    lastName?: string;
 
     @Field()
     @Column({length: 100, unique: true})

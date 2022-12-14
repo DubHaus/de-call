@@ -111,7 +111,7 @@ const Calendar = ({date, onChange}: Props) => {
     return (
         <Container className={styles.container} gap={25}>
             <Flex gap={10}>
-                <Button transparentBg icon="left" />
+                <Button type="ghost" icon="left" />
                 <Select
                     onChange={month => {
                         onChange &&
@@ -138,7 +138,7 @@ const Calendar = ({date, onChange}: Props) => {
                     options={years}
                     value={`${currentYear}`}
                 />
-                <Button transparentBg icon="right" />
+                <Button type="ghost" icon="right" />
             </Flex>
             <Container className={styles.calendar}>
                 {weekDays.map(day => (

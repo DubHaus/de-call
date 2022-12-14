@@ -36,7 +36,7 @@ import {createSchema} from './schema';
         }
 
         // token is valid and we can send back an access token
-        const user = await User.findOne({where: {id: payload.userId}});
+        const user = await User.findOne({where: {username: payload.username}});
 
         if (!user) {
             return res.send({ok: false, accessToken: ''});

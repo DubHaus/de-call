@@ -20,15 +20,19 @@ import {UserInputError} from 'apollo-server-express';
 
 @Resolver(() => User)
 export class UserResolver {
+    @Query(() => Boolean)
+    async isLoggedIn(@Ctx() {currentUser}: MyContext): Promise<Boolean | null> {
+        return !!currentUser;
+    }
+
     @Query(() => User)
     @UseMiddleware(isAuth)
     async user(@Ctx() {currentUser}: MyContext): Promise<User | null> {
         return User.findOne({
-            where: {id: currentUser!.userId},
+            where: {username: currentUser!.username},
             relations: {
                 profile: {
-                    categories: true,
-                    socials: true,
+                    interests: true,
                 },
             },
         });
@@ -36,13 +40,11 @@ export class UserResolver {
 
     @Query(() => [User])
     async users(): Promise<User[]> {
-        return User.find();
+        return User.find({relations: {profile: true}});
     }
 
     @Mutation(() => Boolean)
-    async register(
-        @Arg('input') {email, firstName, password, lastName}: CreateUserInput
-    ) {
+    async register(@Arg('input') {email, password, username}: CreateUserInput) {
         const alreadyExist = await User.findOne({
             where: {email},
         });
@@ -54,8 +56,7 @@ export class UserResolver {
         try {
             const user = new User();
             user.email = email;
-            user.firstName = firstName;
-            user.lastName = lastName;
+            user.username = username;
             user.password = await hash(password);
             await User.save(user);
             return true;
@@ -98,9 +99,11 @@ export class UserResolver {
     }
 
     @Mutation(() => Boolean)
-    async revokeRefreshTokensForUser(@Arg('userId', () => Int) userId: string) {
+    async revokeRefreshTokensForUser(
+        @Arg('username', () => Int) username: string
+    ) {
         await AppDataSource.getRepository(User).increment(
-            {id: userId},
+            {username},
             'tokenVersion',
             1
         );

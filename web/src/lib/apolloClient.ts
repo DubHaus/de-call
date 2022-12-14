@@ -99,7 +99,7 @@ function createApolloClient(ctx?: SchemaContext) {
     return new ApolloClient({
         ssrMode: typeof window === 'undefined',
         link: createIsomorphicLink(ctx),
-        cache: new InMemoryCache({}),
+        cache: new InMemoryCache(),
         credentials: 'include',
     });
 }

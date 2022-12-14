@@ -15,12 +15,25 @@ export type Scalars = {
   Float: number;
 };
 
+export type Category = {
+  __typename?: 'Category';
+  id: Scalars['ID'];
+  title: Scalars['String'];
+};
+
+/** New profile */
+export type CreateProfileInput = {
+  bio: Scalars['String'];
+  firstName: Scalars['String'];
+  interests: Array<Scalars['ID']>;
+  lastName?: InputMaybe<Scalars['String']>;
+};
+
 /** New user */
 export type CreateUserInput = {
   email: Scalars['String'];
-  firstName: Scalars['String'];
-  lastName?: InputMaybe<Scalars['String']>;
   password: Scalars['String'];
+  username: Scalars['String'];
 };
 
 export type LoginResponse = {
@@ -36,10 +49,16 @@ export type LoginUserInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createProfile: Scalars['Boolean'];
   login: LoginResponse;
   logout: Scalars['Boolean'];
   register: Scalars['Boolean'];
   revokeRefreshTokensForUser: Scalars['Boolean'];
+};
+
+
+export type MutationCreateProfileArgs = {
+  input: CreateProfileInput;
 };
 
 
@@ -54,11 +73,21 @@ export type MutationRegisterArgs = {
 
 
 export type MutationRevokeRefreshTokensForUserArgs = {
-  userId: Scalars['Int'];
+  username: Scalars['Int'];
+};
+
+export type Profile = {
+  __typename?: 'Profile';
+  bio: Scalars['String'];
+  firstName: Scalars['String'];
+  id: Scalars['ID'];
+  interests: Array<Category>;
+  lastName?: Maybe<Scalars['String']>;
 };
 
 export type Query = {
   __typename?: 'Query';
+  isLoggedIn: Scalars['Boolean'];
   user: User;
   users: Array<User>;
 };
@@ -66,9 +95,9 @@ export type Query = {
 export type User = {
   __typename?: 'User';
   email: Scalars['String'];
-  firstName: Scalars['String'];
-  id: Scalars['ID'];
-  lastName?: Maybe<Scalars['String']>;
+  emailVerified?: Maybe<Scalars['Boolean']>;
+  profile?: Maybe<Profile>;
+  username: Scalars['String'];
 };
 
 export type LoginMutationVariables = Exact<{
@@ -93,12 +122,17 @@ export type RegisterMutation = { __typename?: 'Mutation', register: boolean };
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCurrentUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, email: string, firstName: string, lastName?: string | null } };
+export type GetCurrentUserQuery = { __typename?: 'Query', user: { __typename?: 'User', username: string, email: string } };
+
+export type GetIsLoggedInQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetIsLoggedInQuery = { __typename?: 'Query', isLoggedIn: boolean };
 
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, firstName: string, lastName?: string | null, email: string }> };
+export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', username: string, email: string, profile?: { __typename?: 'Profile', firstName: string, lastName?: string | null, bio: string } | null }> };
 
 
 export const LoginDocument = gql`
@@ -198,10 +232,8 @@ export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutatio
 export const GetCurrentUserDocument = gql`
     query getCurrentUser {
   user {
-    id
+    username
     email
-    firstName
-    lastName
   }
 }
     `;
@@ -232,13 +264,48 @@ export function useGetCurrentUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type GetCurrentUserQueryHookResult = ReturnType<typeof useGetCurrentUserQuery>;
 export type GetCurrentUserLazyQueryHookResult = ReturnType<typeof useGetCurrentUserLazyQuery>;
 export type GetCurrentUserQueryResult = Apollo.QueryResult<GetCurrentUserQuery, GetCurrentUserQueryVariables>;
+export const GetIsLoggedInDocument = gql`
+    query getIsLoggedIn {
+  isLoggedIn
+}
+    `;
+
+/**
+ * __useGetIsLoggedInQuery__
+ *
+ * To run a query within a React component, call `useGetIsLoggedInQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetIsLoggedInQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetIsLoggedInQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetIsLoggedInQuery(baseOptions?: Apollo.QueryHookOptions<GetIsLoggedInQuery, GetIsLoggedInQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetIsLoggedInQuery, GetIsLoggedInQueryVariables>(GetIsLoggedInDocument, options);
+      }
+export function useGetIsLoggedInLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetIsLoggedInQuery, GetIsLoggedInQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetIsLoggedInQuery, GetIsLoggedInQueryVariables>(GetIsLoggedInDocument, options);
+        }
+export type GetIsLoggedInQueryHookResult = ReturnType<typeof useGetIsLoggedInQuery>;
+export type GetIsLoggedInLazyQueryHookResult = ReturnType<typeof useGetIsLoggedInLazyQuery>;
+export type GetIsLoggedInQueryResult = Apollo.QueryResult<GetIsLoggedInQuery, GetIsLoggedInQueryVariables>;
 export const GetUsersDocument = gql`
     query getUsers {
   users {
-    id
-    firstName
-    lastName
+    username
     email
+    profile {
+      firstName
+      lastName
+      bio
+    }
   }
 }
     `;

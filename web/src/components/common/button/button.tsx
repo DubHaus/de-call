@@ -1,17 +1,13 @@
 import {ReactNode} from 'react';
 import {IconType} from 'src/types/icons';
-import Flex from '../flex';
 import Icon from '../icon';
-import Caption from '../typography/caption';
-import styles from './button.module.scss';
 
 type Props = {
     children?: ReactNode;
     icon?: IconType;
-    type?: 'primary' | 'secondary' | 'negative' | 'alt';
+    type?: 'primary' | 'secondary' | 'ghost';
     submit?: boolean;
     disabled?: boolean;
-    transparentBg?: boolean;
     compact?: boolean;
     onClick?: () => void;
     className?: string;
@@ -23,7 +19,6 @@ const Button = ({
     type = 'primary',
     disabled = false,
     submit = false,
-    transparentBg = false,
     onClick,
     compact = false,
     className = '',
@@ -31,19 +26,15 @@ const Button = ({
     <button
         onClick={onClick}
         type={submit ? 'submit' : 'button'}
-        className={`${styles.button} ${styles[type]} ${
-            disabled && styles.disabled
-        } ${!children && styles.iconOnly} ${
-            transparentBg && styles.transparentBg
-        } ${compact && styles.compact} ${className}`}>
-        {children ? (
-            <Flex gap={10}>
-                <Caption>{children}</Caption>
-                {icon ? <Icon className={styles.icon} icon={icon} /> : null}
-            </Flex>
-        ) : icon ? (
-            <Icon className={styles.icon} icon={icon} />
-        ) : null}
+        className={`min-w-[100px] px-4 h-10 font-bold rounded ${
+            type === 'primary' && 'bg-indigo-500'
+        } ${type === 'primary' ? 'text-white' : 'text-indigo-500'} ${
+            type === 'secondary'
+                ? 'border-solid  border-2 border-indigo-500'
+                : ''
+        } ${className}`}>
+        {children}
+        {icon ? <Icon icon={icon} /> : null}
     </button>
 );
 

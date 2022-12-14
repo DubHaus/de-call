@@ -1,8 +1,11 @@
 query getUsers {
     users {
-        id
-        firstName
-        lastName
+        username
         email
+        profile {
+            firstName
+            lastName
+            bio
+        }
     }
 }

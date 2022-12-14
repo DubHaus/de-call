@@ -1,8 +1,10 @@
 query getCurrentUser {
     user {
-        id
+        username
         email
-        firstName
-        lastName
     }
+}
+
+query getIsLoggedIn {
+    isLoggedIn
 }

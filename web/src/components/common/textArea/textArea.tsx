@@ -1,49 +1,46 @@
-import {ReactNode} from 'react';
-import Container from '../container';
-import Flex from '../flex';
 import {Omit} from 'src/types/utils';
-import styles from './textArea.module.scss';
+import {useState} from 'react';
 
 interface Props {
     value?: string;
     label?: string;
     onChange?: (value: string) => void;
-    left?: ReactNode;
     placeholder?: string;
-    right?: ReactNode;
     className?: string;
-    compact?: boolean;
-    altBackground?: boolean;
+    clearable?: boolean;
 }
 
 const TextArea = ({
     value = '',
     label,
     placeholder = '',
-    left = null,
-    right = null,
     onChange,
     className = '',
-    compact = false,
-    altBackground = false,
+    clearable,
     ...props
-}: Props & Omit<React.HTMLProps<HTMLTextAreaElement>, 'onChange'>) => (
-    <Container
-        className={`${styles.container} ${
-            compact && styles.compact
-        }  ${className} ${altBackground && styles.altBackground} `}>
-        <Flex gap={10}>
-            {label && value && <label className={styles.label}>{label}</label>}
-            {left && <Container>{left}</Container>}
+}: Props & Omit<React.HTMLProps<HTMLTextAreaElement>, 'onChange'>) => {
+    const [focus, setFocus] = useState(false);
+
+    return (
+        <fieldset
+            className={`border border-solid rounded border-slate-400 w-full ${className}`}>
+            <legend
+                className={`text-sm transition-all px-1 h-0 relative top-[-10px]  text-slate-600 ${
+                    !focus ? 'hidden' : ''
+                }`}>
+                {label}
+            </legend>
             <textarea
-                {...props}
+                onFocus={() => setFocus(true)}
+                onBlur={() => setFocus(false)}
                 value={value}
+                onChange={onChange ? e => onChange(e.target.value) : undefined}
                 placeholder={placeholder}
-                onChange={onChange && (e => onChange(e.target.value))}
+                className={`w-full text-current p-3 h-full min-h-[150px]  placeholder:text-slate-400 ${className}`}
+                {...props}
             />
-            {right && <Container>{right}</Container>}
-        </Flex>
-    </Container>
-);
+        </fieldset>
+    );
+};
 
 export default TextArea;

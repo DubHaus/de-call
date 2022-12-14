@@ -9,17 +9,20 @@
     &:hover {
         background: var(--light-grey);
     }
-}
 
-.compact {
-    .name {
-        display: none;
+    &.compact {
+        width: fit-content;
+
+        .name {
+            display: none;
+        }
     }
 }
 
 .icon {
     width: 25px;
-    height: 25px
+    height: 25px;
+    display: block;
 }
 
 .active {

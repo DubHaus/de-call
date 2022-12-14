@@ -1,18 +1,14 @@
-import Container from 'src/components/common/container';
-import Title from 'src/components/common/typography/title';
 import {GetServerSidePropsContext} from 'next';
 import {addApolloState, initializeApollo} from 'src/lib/apolloClient';
 import {} from '@apollo/client';
-import {GetUsersDocument, useGetUsersQuery} from 'generated/graphql';
+import {GetUsersDocument, useGetIsLoggedInQuery} from 'src/generated/graphql';
+import HomePage from './home';
+import WelcomePage from './welcome';
 
 const App = () => {
-    const {data} = useGetUsersQuery();
-    return (
-        <Container>
-            <Title>Users</Title>
-            <div>{JSON.stringify(data)}</div>
-        </Container>
-    );
+    const {data} = useGetIsLoggedInQuery();
+
+    return data?.isLoggedIn ? <HomePage /> : <WelcomePage />;
 };
 
 export const getServerSideProps = async ({req}: GetServerSidePropsContext) => {

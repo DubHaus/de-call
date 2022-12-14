@@ -40,7 +40,7 @@ const Schedule = () => {
                             </Title>
                             <Flex gap={10}>
                                 <Button compact icon="plus" />
-                                <Button transparentBg icon="delete" />
+                                <Button type="ghost" icon="delete" />
                             </Flex>
                         </Flex>
                     </Container>

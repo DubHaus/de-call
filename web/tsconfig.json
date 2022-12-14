@@ -16,7 +16,10 @@
         "isolatedModules": true,
         "noEmit": true,
         "jsx": "preserve",
-        "incremental": true
+        "incremental": true,
+        "paths": {
+            "@components/*": ["./src/components/*"]
+        }
     },
     "exclude": ["node_modules"],
     "include": [

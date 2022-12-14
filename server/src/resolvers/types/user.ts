@@ -1,4 +1,4 @@
-import {IsEmail, MinLength} from 'class-validator';
+import {IsEmail, MaxLength, MinLength} from 'class-validator';
 import {Field, InputType, ObjectType} from 'type-graphql';
 import {User} from '../../entity/User';
 
@@ -9,14 +9,13 @@ export class CreateUserInput implements Partial<User> {
     email: string;
 
     @Field()
-    firstName: string;
+    @MinLength(5)
+    @MaxLength(32)
+    username: string;
 
     @Field()
     @MinLength(8)
     password: string;
-
-    @Field({nullable: true})
-    lastName?: string;
 }
 
 @InputType({description: 'New user'})

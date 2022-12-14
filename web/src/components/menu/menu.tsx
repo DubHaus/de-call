@@ -1,52 +1,60 @@
 import Container from 'src/components/common/container';
 import Flex from 'src/components/common/flex';
+import Logo from './components/logo';
+import MenuButton from './components/menuButton';
 import MenuItem from './components/menuItem';
-import styles from './menu.module.scss';
 
 type Props = {
     className?: string;
-    compact?: boolean;
+    open: boolean;
+    toggle: (value: boolean) => void;
 };
 
-const Menu = ({className = '', compact = false}: Props) => (
+const Menu = ({className = '', open, toggle}: Props) => (
     <Container
-        className={`${styles.menu} ${className} ${compact && styles.compact}`}>
-        <Flex gap={15} direction="column">
+        className={`${className} p-4  transition-all ease-in-out 
+        ${open ? 'w-96' : 'w-24'}`}>
+        <Flex gap={15} align="center" direction="column">
+            <Logo compact={!open} />
+            <MenuButton
+                active={open}
+                onChange={() => toggle(!open)}
+            />
             <MenuItem
                 icon="home"
                 name="Home"
                 active
-                compact={compact}
+                compact={!open}
                 onClick={() => {}}
             />
             <MenuItem
                 icon="explore"
                 name="Explore"
-                compact={compact}
+                compact={!open}
                 onClick={() => {}}
             />
             <MenuItem
                 icon="send"
                 name="Messages"
-                compact={compact}
+                compact={!open}
                 onClick={() => {}}
             />
             <MenuItem
                 icon="profile"
                 name="Profile"
-                compact={compact}
+                compact={!open}
                 onClick={() => {}}
             />
             <MenuItem
                 icon="calendar"
                 name="Schedules calls"
-                compact={compact}
+                compact={!open}
                 onClick={() => {}}
             />
             <MenuItem
                 icon="call"
                 name="Incoming request"
-                compact={compact}
+                compact={!open}
                 onClick={() => {}}
             />
         </Flex>

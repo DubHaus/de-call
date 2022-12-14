@@ -6,42 +6,32 @@ import {GraphQLError} from 'graphql';
 import {CreateProfileInput} from './types/profile';
 import {isAuth} from '../middleware/isAuth';
 import {MyContext} from '../ts-types/context';
-import {Socials} from '../entity/Socials';
 import {Category} from '../entity/catalogs/Category';
-import {UserInputError} from 'apollo-server-express';
 
 @Resolver(() => Profile)
 export class ProfileResolver {
     @Mutation(() => Boolean)
     @UseMiddleware(isAuth)
     async createProfile(
-        @Arg('input') {bio, socials, categories}: CreateProfileInput,
+        @Arg('input') {bio, interests, firstName, lastName}: CreateProfileInput,
         @Ctx() {currentUser}: MyContext
     ): Promise<Boolean | null> {
-        const user = await User.findOne({where: {id: currentUser?.userId}});
+        const user = await User.findOne({
+            where: {username: currentUser?.username},
+        });
         if (user) {
             if (!user.profile) {
                 const profile = new Profile();
                 profile.bio = bio;
+                profile.firstName = firstName;
+                profile.lastName = lastName;
 
-                if (categories.length) {
+                if (interests.length) {
                     const categoryEnitities = await Category.find({
-                        where: categories.map(id => ({id})),
+                        where: interests.map(id => ({id})),
                     });
-                    profile.categories = categoryEnitities;
-                } else {
-                    throw new UserInputError(
-                        'Categories are empty. Need to specify at least one'
-                    );
+                    profile.interests = categoryEnitities;
                 }
-
-                const socialsEntity = new Socials();
-                socialsEntity.github = socials.github;
-                socialsEntity.instagramm = socials.instagramm;
-                socialsEntity.twitter = socials.twitter;
-                await Socials.save(socialsEntity);
-
-                profile.socials = socialsEntity;
                 await Profile.save(profile);
 
                 user.profile = profile;

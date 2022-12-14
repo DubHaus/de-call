@@ -1,59 +1,58 @@
-import {HTMLInputTypeAttribute, ReactNode} from 'react';
-import Container from '../container';
-import Flex from '../flex';
 import {Omit} from 'src/types/utils';
-import styles from './input.module.scss';
-import Icon from '../icon';
+import {ReactNode, useState} from 'react';
+import Container from '../container';
 
 interface Props {
     value?: string;
     label?: string;
     onChange?: (value: string) => void;
-    left?: ReactNode;
     placeholder?: string;
-    right?: ReactNode;
     className?: string;
-    compact?: boolean;
-    altBackground?: boolean;
     clearable?: boolean;
+    right?: ReactNode;
 }
 
 const Input = ({
     value = '',
     label,
     placeholder = '',
-    left = null,
-    right = null,
     onChange,
     className = '',
-    compact = false,
-    altBackground = false,
+    onFocus,
+    onBlur,
     clearable,
+    right,
     ...props
-}: Props & Omit<React.HTMLProps<HTMLInputElement>, 'onChange'>) => (
-    <Container
-        className={`${styles.container} ${
-            compact && styles.compact
-        }  ${className} ${altBackground && styles.altBackground} `}>
-        {label && value && <label className={styles.label}>{label}</label>}
-        <Flex inline gap={10}>
-            {left && <Container>{left}</Container>}
+}: Props & Omit<React.HTMLProps<HTMLInputElement>, 'onChange'>) => {
+    const [focus, setFocus] = useState(false);
+
+    return (
+        <fieldset
+            className={`border border-solid flex items-center justify-between rounded border-slate-400 w-full ${className}`}>
+            <legend
+                className={`text-sm transition-all px-1 h-0 relative top-[-10px]  text-slate-600 ${
+                    !focus ? 'hidden' : ''
+                }`}>
+                {label}
+            </legend>
             <input
-                {...props}
+                onFocus={e => {
+                    setFocus(true);
+                    onFocus && onFocus(e);
+                }}
+                onBlur={e => {
+                    setFocus(false);
+                    onBlur && onBlur(e);
+                }}
                 value={value}
+                onChange={onChange ? e => onChange(e.target.value) : undefined}
                 placeholder={placeholder}
-                onChange={onChange && (e => onChange(e.target.value))}
+                className="w-full p-3  text-current  placeholder:text-slate-400 ${className}"
+                {...props}
             />
-            {clearable && value ? (
-                <Icon
-                    className={styles.icon}
-                    icon="close"
-                    onClick={onChange && (() => onChange(''))}
-                />
-            ) : null}
-            {right}
-        </Flex>
-    </Container>
-);
+            <Container className="pr-3">{right}</Container>
+        </fieldset>
+    );
+};
 
 export default Input;

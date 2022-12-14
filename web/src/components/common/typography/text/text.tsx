@@ -1,28 +1,26 @@
 import {ReactNode} from 'react';
-import styles from './text.module.scss';
 
 type Props = {
     children: ReactNode;
     className?: string;
     onClick?: () => void;
-    compact?: boolean;
     bold?: boolean;
     light?: boolean;
+    size?: 'lg' | 'base' | 'sm' | 'xs';
 };
 
 const Text = ({
     children,
     className = '',
     onClick,
-    bold = false,
-    compact = false,
-    light = false,
+    bold,
+    size = 'base',
 }: Props) => (
     <p
         onClick={onClick}
-        className={`${styles.text} ${bold && styles.bold} ${
-            compact && styles.compact
-        } ${light && styles.light} ${className}`}>
+        className={`text-${size} text-current font-sans ${
+            bold && 'font-bold'
+        } ${className}`}>
         {children}
     </p>
 );

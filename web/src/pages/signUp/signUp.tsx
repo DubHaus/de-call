@@ -1,90 +1,92 @@
 import {useState} from 'react';
 
-import Checkbox from 'src/components/common/checkbox';
-import Flex from 'src/components/common/flex';
-import Input from 'src/components/common/input';
-import Caption from 'src/components/common/typography/caption';
-import Link from 'src/components/common/typography/link';
-import Title from 'src/components/common/typography/title';
-import Layout from 'src/components/layout';
-import styles from './signUp.module.scss';
-import Container from 'src/components/common/container';
-import Button from 'src/components/common/button';
-import Form from 'src/components/common/form';
-import {CreateUserInput, useRegisterMutation} from 'generated/graphql';
 import {useRouter} from 'next/router';
+import {useRegisterMutation} from 'src/generated/graphql';
+import Text from '@components/common/typography/text';
+import Layout from '@components/layout';
+import GridLayout from '@components/common/gridLayout';
+import Container from '@components/common/container';
+import Title from '@components/common/typography/title';
+import Form from '@components/common/form';
+import Button from '@components/common/button';
+import Image from 'next/image';
+import Input from '@components/common/input';
 
 const SignUpPage = () => {
-    const [terms, setTerms] = useState(false);
-    const [name, setName] = useState('');
-    const [firstName, setFirstName] = useState('');
+    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [repeat, setRepeat] = useState('');
 
     const [register] = useRegisterMutation();
     const router = useRouter();
 
     return (
-        <Layout>
-            <Title className={styles.title} level="h2">
-                Sign up
-            </Title>
-            <Form
-                onSubmit={async () => {
-                    const responce = await register({
-                        variables: {input: {email, firstName, password}},
-                    });
-                    if (responce.data?.register) router.push('/'); // TODO create error handler
-                }}>
-                <Container>
-                    <Flex gap={20}>
+        <Layout alt>
+            <GridLayout alt className="z-1 relative">
+                <Container className="col-span-5">
+                    <Title className="" level="h3">
+                        Create account
+                    </Title>
+                    <Text className="mt-5">
+                        First you need to fill out information about you
+                    </Text>
+                    <Form
+                        className="mt-16"
+                        onSubmit={async () => {
+                            const responce = await register({
+                                variables: {
+                                    input: {email, password, username},
+                                },
+                            });
+                            if (responce.data?.register) router.push('/'); // TODO create error handler
+                        }}>
                         <Input
-                            className={`${styles.input} ${styles.name}`}
-                            placeholder="Name"
-                            value={name}
-                            onChange={setName}
-                            name="name"
+                            className="mb-4 w-full"
+                            label="Email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={setEmail}
                         />
                         <Input
-                            className={`${styles.input} ${styles.userName}`}
-                            placeholder="Username"
-                            value={firstName}
-                            onChange={setFirstName}
-                            name="username"
+                            className="mb-4 w-full"
+                            label="username"
+                            placeholder="@username"
+                            value={username}
+                            onChange={setUsername}
                         />
-                    </Flex>
-                    <Input
-                        className={`${styles.input} ${styles.email}`}
-                        placeholder="Email"
-                        value={email}
-                        onChange={setEmail}
-                        name="email"
-                    />
-                    <Input
-                        className={`${styles.input} ${styles.password}`}
-                        placeholder="Password"
-                        value={password}
-                        onChange={setPassword}
-                        name="password"
-                        type="password"
-                    />
-
-                    <Checkbox
-                        className={`${styles.input} ${styles.checkbox}`}
-                        onChange={setTerms}
-                        value={terms}>
-                        <Caption>
-                            Creating an account means you’re okay with our{' '}
-                            <Link>Terms of Service </Link>,{' '}
-                            <Link>Privacy Policy</Link>, and our default
-                            Notification Settings.
-                        </Caption>
-                    </Checkbox>
+                        <Input
+                            className="mb-4 w-full"
+                            label="Password"
+                            placeholder="password"
+                            value={password}
+                            onChange={setPassword}
+                            type="password"
+                        />
+                        <Input
+                            className="w-full"
+                            label="Password"
+                            placeholder="repeat password"
+                            value={repeat}
+                            onChange={setRepeat}
+                            type="password"
+                        />
+                    </Form>
                 </Container>
-                <Button submit type="secondary">
-                    Create account
-                </Button>
-            </Form>
+            </GridLayout>
+            <GridLayout>
+                <Container className="col-span-2 col-start-7 self-end">
+                    <Button>Continue</Button>
+                </Container>
+            </GridLayout>
+            <Container className="w-[40%] max-w-[500px] h-1/2 absolute left-[60%] top-[25%] z-0">
+                <Image
+                    src="/images/welcome-image-1.png"
+                    quality={100}
+                    layout="fill"
+                    objectFit="cover"
+                />
+            </Container>
         </Layout>
     );
 };

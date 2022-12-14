@@ -32,4 +32,5 @@ export type IconType =
     | 'left'
     | 'right'
     | 'delete'
-    | 'edit';
+    | 'edit'
+    | 'science';

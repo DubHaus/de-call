@@ -53,7 +53,7 @@ const OverwriteDatesModal = ({setShowModal}: Props) => {
                                         value={'18:00'}
                                     />
                                 </Flex>
-                                <Button icon="delete" transparentBg />
+                                <Button icon="delete" type="ghost" />
                             </Flex>
                             <Flex justify="between" gap={20}>
                                 <Flex gap={20}>
@@ -70,7 +70,7 @@ const OverwriteDatesModal = ({setShowModal}: Props) => {
                                         value={'18:00'}
                                     />
                                 </Flex>
-                                <Button icon="delete" transparentBg />
+                                <Button icon="delete" type="ghost" />
                             </Flex>
                         </Container>
                     </Container>

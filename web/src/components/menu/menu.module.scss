@@ -1,6 +1,6 @@
 .menu {
     background: var(--app-alt-background);
-    padding: 30px 15px;
+    padding: 15px;
 
     width: 260px;
     min-width: fit-content;
@@ -8,8 +8,6 @@
     flex-grow: 0;
     transition: var(--transition);
 }
-
 .compact {
     width: 50px;
-    padding: 30px 15px;
 }

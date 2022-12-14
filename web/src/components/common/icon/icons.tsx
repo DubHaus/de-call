@@ -34,6 +34,7 @@ import Left from 'public/icons/left.svg';
 import Right from 'public/icons/right.svg';
 import Delete from 'public/icons/delete.svg';
 import Edit from 'public/icons/edit.svg';
+import Science from 'public/icons/science.svg';
 
 const icons = {
     'add-photo': AddPhoto,
@@ -72,6 +73,7 @@ const icons = {
     right: Right,
     delete: Delete,
     edit: Edit,
+    science: Science,
 };
 
 export default icons;

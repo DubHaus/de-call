@@ -11,7 +11,7 @@ const Overwrite = () => (
             <Checkbox value={false} onChange={() => {}} />
             <Text>27Sep - 29Sep </Text>
             <Text>2pm - 8pm</Text>
-            <Button transparentBg icon="delete" />
+            <Button type="ghost" icon="delete" />
         </Flex>
     </Container>
 );

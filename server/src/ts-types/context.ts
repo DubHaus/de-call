@@ -3,5 +3,5 @@ import {Request, Response} from 'express';
 export interface MyContext {
     req: Request;
     res: Response;
-    currentUser?: {userId: string};
+    currentUser?: {username: string};
 }

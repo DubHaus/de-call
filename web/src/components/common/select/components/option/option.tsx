@@ -27,7 +27,7 @@ const Option = ({select, value, title, selected}: Props) => {
         <Container
             ref={ref}
             onClick={() => select(value)}
-            className={`${styles.option} ${selected && styles.active}`}>
+            className={`px-3 py-2 bg-white cursor-pointer text-current ${selected && 'font-bold'} hover:bg-slate-200`}>
             {title}
         </Container>
     );

@@ -44,7 +44,7 @@ describe('isAuth', () => {
 
         expect(params.context).toMatchObject({
             currentUser: {
-                userId: dbUser!.id,
+                username: dbUser!.username,
             },
         });
     });

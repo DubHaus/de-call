@@ -3,14 +3,11 @@ import {
     BaseEntity,
     Column,
     Entity,
-    JoinColumn,
     JoinTable,
     ManyToMany,
-    OneToOne,
     PrimaryGeneratedColumn,
 } from 'typeorm';
 import {Category} from './catalogs/Category';
-import {Socials} from './Socials';
 
 @ObjectType()
 @Entity('profiles')
@@ -20,16 +17,19 @@ export class Profile extends BaseEntity {
     readonly id: string;
 
     @Field()
+    @Column({length: 100})
+    firstName: string;
+
+    @Field({nullable: true})
+    @Column({nullable: true, default: '', length: 100})
+    lastName?: string;
+
+    @Field()
     @Column({length: 300})
     bio: string;
 
     @Field(() => [Category])
     @ManyToMany(() => Category)
     @JoinTable()
-    categories: Category[];
-
-    @Field(() => Socials)
-    @OneToOne(() => Socials)
-    @JoinColumn()
-    socials: Socials;
+    interests: Category[];
 }
