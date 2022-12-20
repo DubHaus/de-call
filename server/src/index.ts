@@ -10,6 +10,7 @@ import {createAccessToken, createRefreshToken} from './utils/auth';
 import {sendRefreshToken} from './utils/sendRereshToken';
 import cors from 'cors';
 import {createSchema} from './schema';
+import {formatError} from './utils/formatError';
 
 (async () => {
     const app = express();
@@ -62,6 +63,7 @@ import {createSchema} from './schema';
             req,
             res,
         }),
+        formatError,
     });
 
     await apolloServer.start();

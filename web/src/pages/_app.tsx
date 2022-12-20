@@ -9,23 +9,26 @@ import 'public/styles/global.scss';
 import './app.css';
 import {refreshAccessToken} from 'src/utils/accessToken';
 import Loader from 'src/components/common/loader';
+import AlertsProvider from '@components/alertsProvider';
 
 const App = ({Component, pageProps}: AppProps) => {
     const apolloClient = useApollo(pageProps);
 
-    // const [loading, setLoading] = useState(true);
-    // useEffect(() => {
-    //     refreshAccessToken().finally(() => setLoading(false));
-    // }, []);
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        refreshAccessToken().finally(() => setLoading(false));
+    }, []);
 
-    // if (loading) {
-    //     return <Loader loading={loading} />;
-    // }
+    if (loading) {
+        return <Loader loading={loading} />;
+    }
 
     return (
         <ApolloProvider client={apolloClient}>
             <Container className="bg-slate-50">
-                <Component {...pageProps} />
+                <AlertsProvider>
+                    <Component {...pageProps} />
+                </AlertsProvider>
             </Container>
         </ApolloProvider>
     );

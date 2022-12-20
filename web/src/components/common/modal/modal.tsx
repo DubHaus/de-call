@@ -1,11 +1,8 @@
 import {useOutsideClick} from 'src/hooks/utilsHooks';
 import {ReactNode, useRef} from 'react';
 import Container from '../container';
-import Icon from '../icon';
-import styles from './modal.module.scss';
 import Button from '../button';
 import Title from '../typography/title';
-import Flex from '../flex';
 
 type Props = {
     children: ReactNode;
@@ -26,19 +23,16 @@ const Modal = ({
     useOutsideClick(ref, close);
 
     return (
-        <Container className={styles.modal}>
-            <Container
-                gap={40}
-                style={{width}}
-                ref={ref}
-                className={styles.container}>
-                <Title className={styles.title} level="h4">
-                    {title}
-                </Title>
-                <Container className={styles.content}>{children}</Container>
-                <Flex gap={20} justify="end">
+        <Container className="z-10 fixed w-full h-full top-0 left-0 bg-opacity-20 bg-gray-400">
+            <Container className="w-[400px] bg-slate-50 rounded absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] p-4">
+                <Container className="flex justify-between">
+                    <Title level="h3">{title}</Title>
+                    <Button size="sm" icon="close" />
+                </Container>
+                <Container className="mt-5">{children}</Container>
+                <Container className="mt-5 flex justify-end ">
                     {buttons}
-                </Flex>
+                </Container>
             </Container>
         </Container>
     );

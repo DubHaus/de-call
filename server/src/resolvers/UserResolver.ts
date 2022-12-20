@@ -46,11 +46,11 @@ export class UserResolver {
     @Mutation(() => Boolean)
     async register(@Arg('input') {email, password, username}: CreateUserInput) {
         const alreadyExist = await User.findOne({
-            where: {email},
+            where: [{email}, {username}],
         });
         if (alreadyExist) {
             throw new UserInputError(
-                'User with this email already exist! Please sign in.'
+                'User already exist! Please sign in.'
             );
         }
         try {
