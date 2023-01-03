@@ -1,12 +1,14 @@
+import Link from 'next/link';
 import {ReactNode} from 'react';
-import {IconType} from 'src/types/icons';
 import Icon from '../icon';
+import {IconType} from '../icon/icon';
 
 type Props = {
     children?: ReactNode;
     icon?: IconType;
     type?: 'primary' | 'secondary' | 'ghost';
     submit?: boolean;
+    href?: string;
     disabled?: boolean;
     onClick?: () => void;
     className?: string;
@@ -18,6 +20,7 @@ const Button = ({
     icon,
     type,
     disabled = false,
+    href,
     submit = false,
     onClick,
     className = '',
@@ -42,8 +45,16 @@ const Button = ({
                     ? 'border-solid  border-2 border-indigo-500'
                     : ''
             } ${className}`}>
-            {children}
-            {icon ? <Icon size={size} icon={icon} /> : null}
+            {href ? (
+                <Link href={href}>
+                    {children}
+                </Link>
+            ) : (
+                <>
+                    {children}
+                    {icon ? <Icon size={size} icon={icon} /> : null}
+                </>
+            )}
         </button>
     );
 };

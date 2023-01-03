@@ -1,16 +1,31 @@
-import {Field, ID, InputType} from 'type-graphql';
+import {ArrayNotEmpty, MaxLength, MinLength} from 'class-validator';
+import {Field, InputType} from 'type-graphql';
+import {Category} from '../../entity/catalogs/Category';
+import {Language} from '../../entity/catalogs/Language';
 
-@InputType({description: 'New profile'})
-export class CreateProfileInput {
-    @Field()
-    firstName: string;
+@InputType({description: 'Profile draft updating'})
+export class DraftProfileInput {
+    @MaxLength(32)
+    @MinLength(4)
+    @Field({nullable: true})
+    firstName?: string;
 
-    @Field({nullable:true})
-    lastName: string;
+    @MinLength(4)
+    @MaxLength(32)
+    @Field({nullable: true})
+    lastName?: string;
 
-    @Field()
-    bio: string;
+    @MaxLength(300)
+    @Field({nullable: true})
+    bio?: string;
 
-    @Field(() => [ID])
-    interests: number[];
+    @ArrayNotEmpty()
+    @Field(() => [Language], {nullable: true})
+    languages?: Language[];
+
+    @Field(() => [Category], {nullable: true})
+    interests?: Category[];
+
+    @Field({nullable: true})
+    photo?: string;
 }

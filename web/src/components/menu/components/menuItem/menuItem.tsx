@@ -1,7 +1,9 @@
+import Container from '@components/common/container';
+import {IconType} from '@components/common/icon/icon';
+import Link from 'next/link';
 import Flex from 'src/components/common/flex';
 import Icon from 'src/components/common/icon';
 import Caption from 'src/components/common/typography/caption';
-import {IconType} from 'src/types/icons';
 import styles from './menuItem.module.scss';
 
 type Props = {
@@ -10,6 +12,7 @@ type Props = {
     active?: boolean;
     onClick: () => void;
     compact?: boolean;
+    href: string;
 };
 
 const MenuItem = ({
@@ -17,18 +20,14 @@ const MenuItem = ({
     name,
     active = false,
     compact = false,
-    onClick,
+    href,
 }: Props) => (
-    <button
-        className={`${styles.button} ${active && styles.active} ${
-            compact && styles.compact
-        }`}
-        onClick={onClick}>
-        <Flex gap={compact ? 0 : 10}>
+    <Link href={href}>
+        <a>
             <Icon className={styles.icon} icon={icon} />
-            <Caption className={styles.name}>{name}</Caption>
-        </Flex>
-    </button>
+            {!compact ? <Caption className={styles.name}>{name}</Caption> : null}
+        </a>
+    </Link>
 );
 
 export default MenuItem;

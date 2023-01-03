@@ -4,40 +4,68 @@ import Input from '../input';
 import Icon from '../icon';
 import {useOutsideClick} from 'src/hooks/utilsHooks';
 import Option, {SelectOption} from './components/option';
+import Loader from '../loader';
+import { useErrorWithFocus } from 'src/hooks/common';
 
-type Props = {
-    value?: string;
+type Props<T> = {
+    value?: T;
     label?: string;
     name?: string;
-    onChange?: (value: string) => void;
+    onChange?: (value: T) => void;
     placeholder?: string;
-    options: SelectOption[];
+    options?: SelectOption[];
     className?: string;
     clearable?: boolean;
+    multiple?: boolean;
+    fetch?: () => any;
+    loading?: boolean;
+    error?: string;
 };
 
-const Select = ({
-    value = '',
+const Select = <T extends SelectOption | SelectOption[] | null>({
+    value,
     label,
     name,
     className,
     placeholder = '',
     onChange,
-    options,
+    options = [],
     clearable = false,
-}: Props) => {
+    multiple,
+    fetch,
+    loading,
+    error,
+}: Props<T>) => {
     const ref = useRef<HTMLDivElement>(null);
+
+    const [errorToShow, setDirty] = useErrorWithFocus(error);
+
+    const values = useMemo<SelectOption[]>(
+        () => (value ? (Array.isArray(value) ? [...value] : [value]) : []),
+        [value]
+    );
 
     const [showDropdown, setShowDropdown] = useState(false);
     const [search, setSearch] = useState('');
     const [searchActive, setSearchActive] = useState(false);
 
-    const onSelect = (option: string) => {
-        onChange && onChange(option);
-        closeDropdown();
+    const onSelect = (option: SelectOption) => {
+        if (onChange) {
+            const idx = values.findIndex(el => el.value === option.value);
+
+            const newValue =
+                idx !== -1
+                    ? [...values.slice(0, idx), ...values.slice(idx + 1)]
+                    : [...values, option];
+            // @ts-ignore: Don't know how to fix this issue
+            onChange && onChange(multiple ? newValue : newValue[0]);
+        }
+        !multiple && closeDropdown();
+        setDirty();
     };
 
     const openDropdown = () => {
+        fetch && fetch();
         setShowDropdown(true);
         setSearchActive(true);
         ref.current?.focus();
@@ -58,8 +86,9 @@ const Select = ({
     );
 
     const valueStr = useMemo(
-        () => options.find(el => el.value === value)?.title,
-        [options, value]
+        () =>
+            multiple ? values.map(el => el.title).join('; ') : values[0].title,
+        [options, values, multiple]
     );
 
     useOutsideClick(ref, closeDropdown);
@@ -72,11 +101,10 @@ const Select = ({
                 clearable={clearable}
                 className=""
                 label={label}
-                placeholder={placeholder || (searchActive && valueStr) || ''}
-                onChange={value => {
-                    setSearch(value);
-                }}
+                placeholder={(searchActive && valueStr) || placeholder}
+                onChange={setSearch}
                 onFocus={openDropdown}
+                error={errorToShow}
                 right={
                     <Icon
                         onClick={showDropdown ? closeDropdown : openDropdown}
@@ -87,16 +115,21 @@ const Select = ({
                     />
                 }
             />
-            {showDropdown && optionsToShow.length ? (
-                <Container className="absolute left-0 top-[52px] border border-slate-400 rounded w-full">
-                    {optionsToShow.map(option => (
-                        <Option
-                            key={option.value}
-                            {...option}
-                            select={onSelect}
-                            selected={value === option.value}
-                        />
-                    ))}
+            {showDropdown ? (
+                <Container className="absolute left-0 top-[52px] border border-slate-400 rounded w-full max-h-[240px] overflow-y-scroll">
+                    <Loader loading={loading}>
+                        {optionsToShow.map(option => (
+                            <Option
+                                key={option.value}
+                                multiple={multiple}
+                                onClick={() => onSelect(option)}
+                                selected={values.some(
+                                    el => el.value === option.value
+                                )}>
+                                {option.title}
+                            </Option>
+                        ))}
+                    </Loader>
                 </Container>
             ) : null}
         </Container>

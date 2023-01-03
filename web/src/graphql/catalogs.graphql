@@ -1,0 +1,13 @@
+query getLanguages {
+    languages {
+        value
+        title
+    }
+}
+
+query getCategories {
+    categories {
+        value
+        title
+    }
+}

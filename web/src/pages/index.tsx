@@ -4,9 +4,14 @@ import {} from '@apollo/client';
 import {GetUsersDocument, useGetIsLoggedInQuery} from 'src/generated/graphql';
 import HomePage from './home';
 import WelcomePage from './welcome';
+import Loader from '@components/common/loader';
 
 const App = () => {
-    const {data} = useGetIsLoggedInQuery();
+    const {data, loading} = useGetIsLoggedInQuery({
+        fetchPolicy: 'network-only',
+    });
+
+    if (loading) return <Loader />;
 
     return data?.isLoggedIn ? <HomePage /> : <WelcomePage />;
 };

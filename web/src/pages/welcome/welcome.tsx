@@ -20,10 +20,10 @@ const WelcomePage = () => {
                         ones :D
                     </Text>
                     <Container className="mt-5 flex justify-end">
-                        <Button className="mr-5" type="secondary">
+                        <Button href="/signup" className="mr-5" type="secondary">
                             Sign up
                         </Button>
-                        <Button>Login</Button>
+                        <Button href="/login">Login</Button>
                     </Container>
                 </Container>
             </GridLayout>

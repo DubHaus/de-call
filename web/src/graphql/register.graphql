@@ -1,3 +1,5 @@
 mutation Register($input: CreateUserInput!) {
-    register(input: $input)
+    register(input: $input) {
+        accessToken
+    }
 }

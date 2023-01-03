@@ -1,48 +1,62 @@
 import {User} from '../entity/User';
 import {Profile} from '../entity/Profile';
-import {Arg, Ctx, Mutation, Resolver, UseMiddleware} from 'type-graphql';
+import {Ctx, Mutation, Resolver, UseMiddleware} from 'type-graphql';
 import {GraphQLError} from 'graphql';
 
-import {CreateProfileInput} from './types/profile';
 import {isAuth} from '../middleware/isAuth';
 import {MyContext} from '../ts-types/context';
-import {Category} from '../entity/catalogs/Category';
 
 @Resolver(() => Profile)
 export class ProfileResolver {
     @Mutation(() => Boolean)
-    @UseMiddleware(isAuth)
+    @UseMiddleware(isAuth())
     async createProfile(
-        @Arg('input') {bio, interests, firstName, lastName}: CreateProfileInput,
-        @Ctx() {currentUser}: MyContext
-    ): Promise<Boolean | null> {
+        @Ctx()
+        {currentUser}: MyContext
+    ): Promise<Boolean> {
         const user = await User.findOne({
             where: {username: currentUser?.username},
+            relations: {
+                draftProfile: {
+                    interests: true,
+                    languages: true,
+                    profilePhoto: true,
+                },
+            },
         });
+
         if (user) {
-            if (!user.profile) {
-                const profile = new Profile();
-                profile.bio = bio;
-                profile.firstName = firstName;
-                profile.lastName = lastName;
-
-                if (interests.length) {
-                    const categoryEnitities = await Category.find({
-                        where: interests.map(id => ({id})),
-                    });
-                    profile.interests = categoryEnitities;
+            const draft = user.draftProfile;
+            if (draft) {
+                if (!user.profile) {
+                    user.profile = new Profile();
                 }
-                await Profile.save(profile);
+                user.profile.firstName = draft.firstName;
+                user.profile.lastName = draft.lastName;
+                if (draft.bio) {
+                    user.profile.bio = draft.bio;
+                }
+                if (draft.interests) {
+                    user.profile.interests = draft.interests;
+                } else throw new GraphQLError('Interests should be filled');
+                if (draft.languages) {
+                    user.profile.languages = draft.languages;
+                } else throw new GraphQLError('Languages should be filled');
+                if (draft.profilePhoto) {
+                    user.profile.photos = [
+                        draft.profilePhoto,
+                        ...(user.profile.photos || []),
+                    ];
+                } else {
+                    user.profile.photos = [];
+                }
 
-                user.profile = profile;
+                await Profile.save(user.profile);
                 await User.save(user);
-
                 return true;
-            } else {
-                throw new GraphQLError('User profile already created');
-            }
+            } else throw new GraphQLError('Need to create draft first');
         } else {
-            throw new GraphQLError('User does not exist');
+            throw new GraphQLError("User don't exist!");
         }
     }
 }

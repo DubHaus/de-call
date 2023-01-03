@@ -1,3 +1,4 @@
+import {useRouter} from 'next/router';
 import Flex from 'src/components/common/flex';
 import Input from 'src/components/common/input';
 import Link from 'src/components/common/typography/link';
@@ -8,8 +9,7 @@ import Container from 'src/components/common/container';
 import Button from 'src/components/common/button';
 import {useState} from 'react';
 import Form from 'src/components/common/form';
-import {useLoginMutation} from 'generated/graphql';
-import {useRouter} from 'next/router';
+import {useLoginMutation} from 'src/generated/graphql';
 import {setAccessToken} from 'src/utils/accessToken';
 
 const LoginPage = () => {
@@ -56,7 +56,7 @@ const LoginPage = () => {
                     <Button submit type="secondary">
                         Login
                     </Button>
-                    <Link>Forgot password</Link>
+                    <Link href='#' >Forgot password</Link>
                 </Flex>
             </Form>
         </Layout>

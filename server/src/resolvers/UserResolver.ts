@@ -8,7 +8,12 @@ import {
     Resolver,
     UseMiddleware,
 } from 'type-graphql';
-import {CreateUserInput, LoginResponse, LoginUserInput} from './types/user';
+import {
+    CreateUserInput,
+    LoginResponse,
+    LoginUserInput,
+    SignupResponce,
+} from './types/user';
 import {hash, verify} from 'argon2';
 import {GraphQLError} from 'graphql';
 import {MyContext} from '../ts-types/context';
@@ -20,13 +25,14 @@ import {UserInputError} from 'apollo-server-express';
 
 @Resolver(() => User)
 export class UserResolver {
+    @UseMiddleware(isAuth({throwError: false}))
     @Query(() => Boolean)
     async isLoggedIn(@Ctx() {currentUser}: MyContext): Promise<Boolean | null> {
         return !!currentUser;
     }
 
     @Query(() => User)
-    @UseMiddleware(isAuth)
+    @UseMiddleware(isAuth())
     async user(@Ctx() {currentUser}: MyContext): Promise<User | null> {
         return User.findOne({
             where: {username: currentUser!.username},
@@ -43,15 +49,16 @@ export class UserResolver {
         return User.find({relations: {profile: true}});
     }
 
-    @Mutation(() => Boolean)
-    async register(@Arg('input') {email, password, username}: CreateUserInput) {
+    @Mutation(() => SignupResponce)
+    async register(
+        @Arg('input') {email, password, username}: CreateUserInput,
+        @Ctx() {res}: MyContext
+    ): Promise<SignupResponce> {
         const alreadyExist = await User.findOne({
             where: [{email}, {username}],
         });
         if (alreadyExist) {
-            throw new UserInputError(
-                'User already exist! Please sign in.'
-            );
+            throw new UserInputError('User already exist! Please sign in.');
         }
         try {
             const user = new User();
@@ -59,7 +66,12 @@ export class UserResolver {
             user.username = username;
             user.password = await hash(password);
             await User.save(user);
-            return true;
+
+            sendRefreshToken(res, createRefreshToken(user));
+            return {
+                accessToken: createAccessToken(user),
+                created: true,
+            };
         } catch (err) {
             console.log(err);
             throw new GraphQLError("Couldn't register new user");
@@ -90,7 +102,7 @@ export class UserResolver {
     }
 
     @Mutation(() => Boolean)
-    @UseMiddleware(isAuth)
+    @UseMiddleware(isAuth())
     async logout(@Ctx() {res}: MyContext) {
         sendRefreshToken(res, '');
         res.clearCookie('rto');

@@ -6,7 +6,10 @@ import {
     OneToOne,
     JoinColumn,
     PrimaryColumn,
+    OneToMany,
 } from 'typeorm';
+import {DraftProfile} from './DraftProfile';
+import {Event} from './Event';
 import {Profile} from './Profile';
 
 export enum UserRole {
@@ -32,6 +35,17 @@ export class User extends BaseEntity {
     })
     @JoinColumn()
     profile?: Profile;
+
+    @Field(() => DraftProfile, {nullable: true})
+    @OneToOne(() => DraftProfile, {
+        nullable: true,
+    })
+    @JoinColumn()
+    draftProfile?: DraftProfile;
+
+    @Field(() => [Event])
+    @OneToMany(() => Event, event => event.creator)
+    createdEvents: Event[];
 
     @Field()
     @Column({length: 100, unique: true})

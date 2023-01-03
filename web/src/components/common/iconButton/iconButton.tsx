@@ -1,12 +1,12 @@
 import {ReactNode, useState} from 'react';
-import {IconType} from 'src/types/icons';
 import Container from '../container';
 import Icon from '../icon';
+import {IconType} from '../icon/icon';
 import styles from './iconButton.module.scss';
 
 type Props = {
     icon: IconType;
-    type?: 'primary' | 'secondary' | 'negative' | "alt";
+    type?: 'primary' | 'secondary' | 'negative' | 'alt';
     disabled?: boolean;
     contextMenu?: ReactNode;
     onClick: () => void;
@@ -33,7 +33,7 @@ const IconButton = ({
             {contextMenu ? (
                 <button
                     onClick={e => {
-                        e.stopPropagation()
+                        e.stopPropagation();
                         setOpen(!open);
                     }}
                     className={styles.contextButton}>

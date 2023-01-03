@@ -2,6 +2,8 @@
     "compilerOptions": {
         "target": "es2017",
         "module": "commonjs",
+        "allowJs": true,
+        "maxNodeModuleJsDepth": 10,
         "lib": ["dom", "es6", "es2017", "esnext.asynciterable"],
         "skipLibCheck": true,
         "sourceMap": true,
@@ -20,7 +22,7 @@
         "esModuleInterop": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "resolveJsonModule": true,
+        "resolveJsonModule": true
     },
     "exclude": ["node_modules"],
     "include": ["./src"]

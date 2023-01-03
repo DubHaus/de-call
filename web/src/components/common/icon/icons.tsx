@@ -35,6 +35,19 @@ import Right from 'public/icons/right.svg';
 import Delete from 'public/icons/delete.svg';
 import Edit from 'public/icons/edit.svg';
 import Science from 'public/icons/science.svg';
+import Book from 'public/icons/book.svg';
+import Business from 'public/icons/business.svg';
+import Camera from 'public/icons/camera.svg';
+import Computer from 'public/icons/computer.svg';
+import Cookie from 'public/icons/cookie.svg';
+import Education from 'public/icons/education.svg';
+import ExploreWorld from 'public/icons/explore-world.svg';
+import Gaming from 'public/icons/gaming.svg';
+import Headphones from 'public/icons/headphones.svg';
+import Emoji from 'public/icons/emoji.svg';
+import Ioga from 'public/icons/ioga.svg';
+import Sport from 'public/icons/sport.svg';
+import Movie from 'public/icons/movie.svg';
 
 const icons = {
     'add-photo': AddPhoto,
@@ -74,6 +87,19 @@ const icons = {
     delete: Delete,
     edit: Edit,
     science: Science,
+    book: Book,
+    business: Business,
+    camera: Camera,
+    computer: Computer,
+    cookie: Cookie,
+    education: Education,
+    'explore-world': ExploreWorld,
+    gaming: Gaming,
+    headphones: Headphones,
+    emoji: Emoji,
+    ioga: Ioga,
+    sport: Sport,
+    movie: Movie,
 };
 
 export default icons;

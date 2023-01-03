@@ -1,6 +1,7 @@
 import {Omit} from 'src/types/utils';
-import React, {ReactNode, useState} from 'react';
+import React, {ReactNode, useEffect, useMemo, useState} from 'react';
 import Container from '../container';
+import {useErrorWithFocus} from 'src/hooks/common';
 
 interface Props {
     value?: string;
@@ -19,46 +20,41 @@ const Input = ({
     placeholder = '',
     onChange,
     className = '',
-    onFocus,
-    onBlur,
     clearable,
     right,
     error,
     ...props
 }: Props & Omit<React.HTMLProps<HTMLInputElement>, 'onChange'>) => {
-    const [focus, setFocus] = useState(false);
+    const [errorToShow, setDirty] = useErrorWithFocus(error);
+
+    const filled = useMemo(() => !!value, [value]);
 
     return (
         <Container className={className}>
             <fieldset
                 className={`border border-solid flex items-center justify-between rounded w-full  ${
-                    error ? 'border-red-400' : 'border-slate-400'
+                    errorToShow ? 'border-red-400' : 'border-slate-400'
                 }`}>
                 <legend
                     className={`text-sm transition-all px-1 h-0 relative top-[-10px] ${
-                        error ? 'text-red-600' : 'text-slate-600'
-                    }  ${!focus ? 'hidden' : ''}`}>
+                        errorToShow ? 'text-red-600' : 'text-slate-600'
+                    }  ${!filled ? 'hidden' : ''}`}>
                     {label}
                 </legend>
                 <input
-                    onFocus={e => {
-                        setFocus(true);
-                        onFocus && onFocus(e);
-                    }}
-                    onBlur={e => {
-                        setFocus(false);
-                        onBlur && onBlur(e);
-                    }}
                     value={value}
-                    onChange={onChange ? e => onChange(e.target.value) : undefined}
+                    onChange={e => {
+                        onChange && onChange(e.target.value);
+                        setDirty();
+                    }}
                     placeholder={placeholder}
                     className="w-full p-3  text-current placeholder:text-slate-400"
                     {...props}
                 />
                 {right ? <Container className="pr-3">{right}</Container> : null}
             </fieldset>
-            {error ? (
-                <span className="text-red-600 text-sm">{error}</span>
+            {errorToShow ? (
+                <span className="text-red-600 text-sm">{errorToShow}</span>
             ) : null}
         </Container>
     );

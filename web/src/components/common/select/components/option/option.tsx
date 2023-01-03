@@ -1,6 +1,6 @@
-import {useEffect, useRef} from 'react';
+import Checkbox from '@components/common/checkbox';
+import {ReactNode, useEffect, useRef} from 'react';
 import Container from 'src/components/common/container';
-import styles from './option.module.scss';
 
 export type SelectOption = {
     value: string;
@@ -8,11 +8,13 @@ export type SelectOption = {
 };
 
 type Props = {
-    select: (value: SelectOption['value']) => void;
+    onClick: () => void;
     selected?: boolean;
-} & SelectOption;
+    multiple?: boolean;
+    children?: ReactNode;
+};
 
-const Option = ({select, value, title, selected}: Props) => {
+const Option = ({onClick, children, selected, multiple}: Props) => {
     const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -26,9 +28,15 @@ const Option = ({select, value, title, selected}: Props) => {
     return (
         <Container
             ref={ref}
-            onClick={() => select(value)}
-            className={`px-3 py-2 bg-white cursor-pointer text-current ${selected && 'font-bold'} hover:bg-slate-200`}>
-            {title}
+            onClick={onClick}
+            className={`px-3 py-2 bg-white cursor-pointer text-current ${
+                selected && 'font-bold'
+            } hover:bg-slate-200`}>
+            {multiple ? (
+                <Checkbox value={selected}>{children}</Checkbox>
+            ) : (
+                children
+            )}
         </Container>
     );
 };

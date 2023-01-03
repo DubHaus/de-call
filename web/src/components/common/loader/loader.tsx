@@ -3,11 +3,11 @@ import Container from '../container';
 import Text from '../typography/text';
 
 interface Props {
-    loading: boolean;
+    loading?: boolean;
     children?: ReactNode;
 }
 
-const Loader = ({loading, children = null}: Props) => (
+const Loader = ({loading = true, children = null}: Props) => (
     <Container>{loading ? <Text>Loading...</Text> : children}</Container>
 );
 

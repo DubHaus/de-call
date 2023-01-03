@@ -1,7 +1,8 @@
 import 'reflect-metadata';
 import 'dotenv/config';
 import express from 'express';
-import {ApolloServer} from 'apollo-server-express';
+import {ApolloServer, gql} from 'apollo-server-express';
+import {GraphQLUpload, graphqlUploadExpress} from 'graphql-upload-ts';
 import {AppDataSource} from './data-source';
 import cookieParser from 'cookie-parser';
 import {verify} from 'jsonwebtoken';
@@ -11,6 +12,7 @@ import {sendRefreshToken} from './utils/sendRereshToken';
 import cors from 'cors';
 import {createSchema} from './schema';
 import {formatError} from './utils/formatError';
+import { join } from 'path';
 
 (async () => {
     const app = express();
@@ -21,6 +23,7 @@ import {formatError} from './utils/formatError';
             credentials: true,
         })
     );
+    app.use('/images', express.static(join(__dirname + '/../images')));
 
     app.post('/refresh_token', async (req, res) => {
         const token = req.cookies.rto;
@@ -64,9 +67,16 @@ import {formatError} from './utils/formatError';
             res,
         }),
         formatError,
+        typeDefs: gql`
+            scalar Upload
+        `,
+        resolvers: {
+            Upload: GraphQLUpload,
+        },
     });
 
     await apolloServer.start();
+    app.use(graphqlUploadExpress());
     apolloServer.applyMiddleware({app, cors: false});
 
     app.listen(4000, () => {

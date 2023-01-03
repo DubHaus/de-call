@@ -19,7 +19,7 @@ const Text = ({
     <p
         onClick={onClick}
         className={`text-${size} text-current font-sans ${
-            bold && 'font-bold'
+            bold ? 'font-bold' : 'font-normal'
         } ${className}`}>
         {children}
     </p>

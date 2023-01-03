@@ -1,5 +1,6 @@
-import {IconType} from 'src/types/icons';
 import Icons from './icons';
+
+export type IconType = keyof typeof Icons;
 
 type Props = {
     icon: IconType;
@@ -9,7 +10,7 @@ type Props = {
     size?: 'lg' | 'base' | 'sm' | 'xs';
 };
 
-const Icon = ({icon, color, className = '', onClick, size = 'base'}: Props) => {
+const Icon = ({icon, color,  className = '', onClick, size = 'base'}: Props) => {
     const Component = Icons[icon];
     return (
         <Component

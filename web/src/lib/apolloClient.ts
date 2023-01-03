@@ -14,6 +14,7 @@ import isEqual from 'lodash/isEqual';
 import {getAccessToken, setAccessToken} from 'src/utils/accessToken';
 import {TokenRefreshLink} from 'apollo-link-token-refresh';
 import jwtDecode from 'jwt-decode';
+import {createUploadLink} from 'apollo-upload-client';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
@@ -54,10 +55,7 @@ const requestLink = new ApolloLink(
 );
 
 function createIsomorphicLink(ctx?: SchemaContext) {
-    const httpLink = new HttpLink({
-        uri: 'http://localhost:4000/graphql',
-        credentials: 'include',
-    });
+    const httpLink = new HttpLink({});
 
     const refetchLink = new TokenRefreshLink({
         accessTokenField: 'accessToken',
@@ -92,7 +90,12 @@ function createIsomorphicLink(ctx?: SchemaContext) {
         },
     });
 
-    return from([refetchLink, requestLink, httpLink]);
+    const uploadLink = createUploadLink({
+        uri: 'http://localhost:4000/graphql',
+        credentials: 'include',
+    });
+
+    return from([refetchLink, requestLink, uploadLink]);
 }
 
 function createApolloClient(ctx?: SchemaContext) {

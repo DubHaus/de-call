@@ -31,3 +31,11 @@ export class LoginResponse {
     @Field()
     accessToken: string;
 }
+@ObjectType()
+export class SignupResponce {
+    @Field()
+    accessToken: string;
+
+    @Field()
+    created: boolean;
+}

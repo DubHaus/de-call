@@ -1,0 +1,22 @@
+mutation UpdateDraftProfile($input: DraftProfileInput!) {
+    updateDraftProfile(input: $input)
+}
+
+query GetDraftProfile {
+    draftProfile {
+        firstName
+        lastName
+        bio
+        interests {
+            value
+            title
+        }
+        languages {
+            value
+            title
+        }
+        profilePhoto {
+            location
+        }
+    }
+}

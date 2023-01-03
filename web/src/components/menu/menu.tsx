@@ -23,6 +23,7 @@ const Menu = ({className = '', open, toggle}: Props) => (
             <MenuItem
                 icon="home"
                 name="Home"
+                href="/"
                 active
                 compact={!open}
                 onClick={() => {}}
@@ -30,29 +31,34 @@ const Menu = ({className = '', open, toggle}: Props) => (
             <MenuItem
                 icon="explore"
                 name="Explore"
+                href="/explore"
                 compact={!open}
                 onClick={() => {}}
             />
             <MenuItem
                 icon="send"
                 name="Messages"
+                href="/messages"
                 compact={!open}
                 onClick={() => {}}
             />
             <MenuItem
                 icon="profile"
                 name="Profile"
+                href="/profile"
                 compact={!open}
                 onClick={() => {}}
             />
             <MenuItem
                 icon="calendar"
+                href="/calls"
                 name="Schedules calls"
                 compact={!open}
                 onClick={() => {}}
             />
             <MenuItem
                 icon="call"
+                href="/requ"
                 name="Incoming request"
                 compact={!open}
                 onClick={() => {}}
