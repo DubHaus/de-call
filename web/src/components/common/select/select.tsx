@@ -5,7 +5,7 @@ import Icon from '../icon';
 import {useOutsideClick} from 'src/hooks/utilsHooks';
 import Option, {SelectOption} from './components/option';
 import Loader from '../loader';
-import { useErrorWithFocus } from 'src/hooks/common';
+import {useErrorWithFocus} from 'src/hooks/common';
 
 type Props<T> = {
     value?: T;
@@ -87,7 +87,7 @@ const Select = <T extends SelectOption | SelectOption[] | null>({
 
     const valueStr = useMemo(
         () =>
-            multiple ? values.map(el => el.title).join('; ') : values[0].title,
+            multiple ? values.map(el => el.title).join('; ') : values[0]?.title,
         [options, values, multiple]
     );
 
@@ -99,7 +99,6 @@ const Select = <T extends SelectOption | SelectOption[] | null>({
                 value={searchActive ? search : valueStr}
                 name={name}
                 clearable={clearable}
-                className=""
                 label={label}
                 placeholder={(searchActive && valueStr) || placeholder}
                 onChange={setSearch}
@@ -116,7 +115,7 @@ const Select = <T extends SelectOption | SelectOption[] | null>({
                 }
             />
             {showDropdown ? (
-                <Container className="absolute left-0 top-[52px] border border-slate-400 rounded w-full max-h-[240px] overflow-y-scroll">
+                <Container className="absolute left-0 top-[52px] border border-slate-400 rounded bg-white z-10 w-full max-h-[240px] overflow-y-scroll">
                     <Loader loading={loading}>
                         {optionsToShow.map(option => (
                             <Option

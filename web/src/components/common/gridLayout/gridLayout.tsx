@@ -6,13 +6,20 @@ type Props = {
     className?: string;
     alt?: boolean;
     align?: 'start' | 'center' | 'baseline' | 'center' | 'stretch';
+    local?: boolean;
 };
 
-const GridLayout = ({children, className, alt,align = 'stretch'}: Props) => (
+const GridLayout = ({
+    children,
+    className,
+    alt,
+    align = 'stretch',
+    local,
+}: Props) => (
     <Container
-        className={`max-w-[1280px] m-auto ${
+        className={`${local ? '' : 'm-auto max-w-[1280px] p-5'} ${
             alt && 'px-[104px]'
-        } p-5 grid grid-cols-12 gap-4 items items-${align} ${className}`}>
+        }  grid grid-cols-12 gap-4 items items-${align} ${className}`}>
         {children}
     </Container>
 );

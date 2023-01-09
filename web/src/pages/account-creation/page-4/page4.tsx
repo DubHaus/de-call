@@ -82,7 +82,11 @@ const Page4 = () => {
                         you can change it or add new ones later
                     </Text>
                     <Container className="mt-16">
-                        <ImageInput value={picture} onChange={loadPhoto} />
+                        <ImageInput
+                            preview
+                            value={picture}
+                            onChange={loadPhoto}
+                        />
                     </Container>
                 </Container>
                 <Container className="col-start-8 col-span-6">

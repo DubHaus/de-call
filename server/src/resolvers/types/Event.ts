@@ -21,7 +21,7 @@ export class CreateEventInput {
     @Field(() => [Category])
     categories: Category[];
 
-    @Field()
+    @Field({nullable: true})
     previewImage?: string;
 
     @Field(() => EventType)

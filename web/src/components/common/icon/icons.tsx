@@ -48,6 +48,8 @@ import Emoji from 'public/icons/emoji.svg';
 import Ioga from 'public/icons/ioga.svg';
 import Sport from 'public/icons/sport.svg';
 import Movie from 'public/icons/movie.svg';
+import People from 'public/icons/people.svg';
+import Image from 'public/icons/image.svg';
 
 const icons = {
     'add-photo': AddPhoto,
@@ -100,6 +102,8 @@ const icons = {
     ioga: Ioga,
     sport: Sport,
     movie: Movie,
+    people: People,
+    image: Image,
 };
 
 export default icons;

@@ -16,7 +16,7 @@ const Chip = ({children, icon, onClick, selected, className, size}: Props) => (
         onClick={() => onClick && onClick()}
         className={`${
             size === 'sm' ? 'px-3 py-1 text-sm' : 'px-4 py-2 text-sm'
-        } inline-flex items-center rounded-full border-indigo-600 border border-solid font-bold ${
+        } inline-flex items-center rounded-full border-indigo-600 border border-solid font-bold whitespace-nowrap ${
             selected ? 'bg-indigo-600 text-slate-50' : 'text-indigo-600'
         }  ${className}`}>
         {children}

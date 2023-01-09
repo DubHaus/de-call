@@ -4,10 +4,10 @@ import Container from '../../../common/container';
 const Login = () => {
     return (
         <Container>
-            <Button href="/signup" className="mr-5" type="secondary">
+            <Button size="sm" href="/signup" className="mr-5" type="secondary">
                 Sign up
             </Button>
-            <Button href="/login">Login</Button>
+            <Button size="sm" href="/login">Login</Button>
         </Container>
     );
 };

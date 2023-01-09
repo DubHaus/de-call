@@ -13,6 +13,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  DateTime: any;
   Upload: any;
 };
 
@@ -25,6 +26,16 @@ export type Category = {
 export type CategoryInput = {
   title: Scalars['String'];
   value: Scalars['String'];
+};
+
+/** Event creation input */
+export type CreateEventInput = {
+  categories: Array<CategoryInput>;
+  date: Scalars['DateTime'];
+  description: Scalars['String'];
+  previewImage?: InputMaybe<Scalars['String']>;
+  title: Scalars['String'];
+  type: EventType;
 };
 
 /** New user */
@@ -55,6 +66,34 @@ export type DraftProfileInput = {
   photo?: InputMaybe<Scalars['String']>;
 };
 
+export type Event = {
+  __typename?: 'Event';
+  attendees: Array<User>;
+  categories: Array<Category>;
+  creator: User;
+  date: Scalars['DateTime'];
+  description: Scalars['String'];
+  id: Scalars['String'];
+  previewImage?: Maybe<Image>;
+  title: Scalars['String'];
+  type: EventType;
+};
+
+/** Event type */
+export enum EventType {
+  Closed = 'closed',
+  Private = 'private',
+  Public = 'public'
+}
+
+export type Image = {
+  __typename?: 'Image';
+  description?: Maybe<Scalars['String']>;
+  filename: Scalars['String'];
+  id: Scalars['ID'];
+  location: Scalars['String'];
+};
+
 export type Language = {
   __typename?: 'Language';
   title: Scalars['String'];
@@ -79,14 +118,22 @@ export type LoginUserInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createEvent: Scalars['Boolean'];
   createProfile: Scalars['Boolean'];
   login: LoginResponse;
   logout: Scalars['Boolean'];
   register: SignupResponce;
+  removeImage: Scalars['Boolean'];
   removePhoto: Scalars['Boolean'];
   revokeRefreshTokensForUser: Scalars['Boolean'];
   updateDraftProfile: Scalars['Boolean'];
+  uploadImage: Scalars['String'];
   uploadPhoto: Scalars['String'];
+};
+
+
+export type MutationCreateEventArgs = {
+  input: CreateEventInput;
 };
 
 
@@ -97,6 +144,11 @@ export type MutationLoginArgs = {
 
 export type MutationRegisterArgs = {
   input: CreateUserInput;
+};
+
+
+export type MutationRemoveImageArgs = {
+  input: Scalars['String'];
 };
 
 
@@ -115,26 +167,33 @@ export type MutationUpdateDraftProfileArgs = {
 };
 
 
+export type MutationUploadImageArgs = {
+  input: UploadImageInput;
+};
+
+
 export type MutationUploadPhotoArgs = {
-  input: UploadPhotoInput;
+  input: UploadImageInput;
 };
 
 export type Photo = {
   __typename?: 'Photo';
   description?: Maybe<Scalars['String']>;
+  filename: Scalars['String'];
   id: Scalars['ID'];
   location: Scalars['String'];
 };
 
 export type Profile = {
   __typename?: 'Profile';
-  bio: Scalars['String'];
+  bio?: Maybe<Scalars['String']>;
   firstName: Scalars['String'];
   id: Scalars['ID'];
   interests: Array<Category>;
   languages?: Maybe<Array<Language>>;
   lastName?: Maybe<Scalars['String']>;
   photos: Array<Photo>;
+  profilePhoto?: Maybe<Photo>;
 };
 
 export type Query = {
@@ -143,6 +202,7 @@ export type Query = {
   draftProfile: DraftProfile;
   isLoggedIn: Scalars['Boolean'];
   languages: Array<Language>;
+  myCreatedEvents: Array<Event>;
   user: User;
   users: Array<User>;
 };
@@ -154,13 +214,14 @@ export type SignupResponce = {
 };
 
 /** new photo */
-export type UploadPhotoInput = {
+export type UploadImageInput = {
   description: Scalars['String'];
   file: Scalars['Upload'];
 };
 
 export type User = {
   __typename?: 'User';
+  createdEvents: Array<Event>;
   draftProfile?: Maybe<DraftProfile>;
   email: Scalars['String'];
   emailVerified?: Maybe<Scalars['Boolean']>;
@@ -190,6 +251,25 @@ export type GetDraftProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetDraftProfileQuery = { __typename?: 'Query', draftProfile: { __typename?: 'DraftProfile', firstName: string, lastName: string, bio?: string | null, interests?: Array<{ __typename?: 'Category', value: string, title: string }> | null, languages?: Array<{ __typename?: 'Language', value: string, title: string }> | null, profilePhoto?: { __typename?: 'Photo', location: string } | null } };
 
+export type CreateEventMutationVariables = Exact<{
+  input: CreateEventInput;
+}>;
+
+
+export type CreateEventMutation = { __typename?: 'Mutation', createEvent: boolean };
+
+export type MyCreatedEventsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MyCreatedEventsQuery = { __typename?: 'Query', myCreatedEvents: Array<{ __typename?: 'Event', id: string, title: string, description: string, date: any, type: EventType, categories: Array<{ __typename?: 'Category', value: string }>, previewImage?: { __typename?: 'Image', location: string } | null, attendees: Array<{ __typename?: 'User', username: string }> }> };
+
+export type UploadImageMutationVariables = Exact<{
+  input: UploadImageInput;
+}>;
+
+
+export type UploadImageMutation = { __typename?: 'Mutation', uploadImage: string };
+
 export type LoginMutationVariables = Exact<{
   input: LoginUserInput;
 }>;
@@ -203,7 +283,7 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
 
 export type UploadPhotoMutationVariables = Exact<{
-  input: UploadPhotoInput;
+  input: UploadImageInput;
 }>;
 
 
@@ -234,7 +314,7 @@ export type GetIsLoggedInQuery = { __typename?: 'Query', isLoggedIn: boolean };
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', username: string, email: string, profile?: { __typename?: 'Profile', firstName: string, lastName?: string | null, bio: string } | null }> };
+export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', username: string, email: string, profile?: { __typename?: 'Profile', firstName: string, lastName?: string | null, bio?: string | null } | null }> };
 
 
 export const GetLanguagesDocument = gql`
@@ -385,6 +465,115 @@ export function useGetDraftProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type GetDraftProfileQueryHookResult = ReturnType<typeof useGetDraftProfileQuery>;
 export type GetDraftProfileLazyQueryHookResult = ReturnType<typeof useGetDraftProfileLazyQuery>;
 export type GetDraftProfileQueryResult = Apollo.QueryResult<GetDraftProfileQuery, GetDraftProfileQueryVariables>;
+export const CreateEventDocument = gql`
+    mutation createEvent($input: CreateEventInput!) {
+  createEvent(input: $input)
+}
+    `;
+export type CreateEventMutationFn = Apollo.MutationFunction<CreateEventMutation, CreateEventMutationVariables>;
+
+/**
+ * __useCreateEventMutation__
+ *
+ * To run a mutation, you first call `useCreateEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createEventMutation, { data, loading, error }] = useCreateEventMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateEventMutation(baseOptions?: Apollo.MutationHookOptions<CreateEventMutation, CreateEventMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateEventMutation, CreateEventMutationVariables>(CreateEventDocument, options);
+      }
+export type CreateEventMutationHookResult = ReturnType<typeof useCreateEventMutation>;
+export type CreateEventMutationResult = Apollo.MutationResult<CreateEventMutation>;
+export type CreateEventMutationOptions = Apollo.BaseMutationOptions<CreateEventMutation, CreateEventMutationVariables>;
+export const MyCreatedEventsDocument = gql`
+    query myCreatedEvents {
+  myCreatedEvents {
+    id
+    title
+    description
+    date
+    categories {
+      value
+    }
+    previewImage {
+      location
+    }
+    attendees {
+      username
+    }
+    type
+  }
+}
+    `;
+
+/**
+ * __useMyCreatedEventsQuery__
+ *
+ * To run a query within a React component, call `useMyCreatedEventsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyCreatedEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyCreatedEventsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMyCreatedEventsQuery(baseOptions?: Apollo.QueryHookOptions<MyCreatedEventsQuery, MyCreatedEventsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MyCreatedEventsQuery, MyCreatedEventsQueryVariables>(MyCreatedEventsDocument, options);
+      }
+export function useMyCreatedEventsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MyCreatedEventsQuery, MyCreatedEventsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MyCreatedEventsQuery, MyCreatedEventsQueryVariables>(MyCreatedEventsDocument, options);
+        }
+export type MyCreatedEventsQueryHookResult = ReturnType<typeof useMyCreatedEventsQuery>;
+export type MyCreatedEventsLazyQueryHookResult = ReturnType<typeof useMyCreatedEventsLazyQuery>;
+export type MyCreatedEventsQueryResult = Apollo.QueryResult<MyCreatedEventsQuery, MyCreatedEventsQueryVariables>;
+export const UploadImageDocument = gql`
+    mutation UploadImage($input: UploadImageInput!) {
+  uploadImage(input: $input)
+}
+    `;
+export type UploadImageMutationFn = Apollo.MutationFunction<UploadImageMutation, UploadImageMutationVariables>;
+
+/**
+ * __useUploadImageMutation__
+ *
+ * To run a mutation, you first call `useUploadImageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUploadImageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [uploadImageMutation, { data, loading, error }] = useUploadImageMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUploadImageMutation(baseOptions?: Apollo.MutationHookOptions<UploadImageMutation, UploadImageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UploadImageMutation, UploadImageMutationVariables>(UploadImageDocument, options);
+      }
+export type UploadImageMutationHookResult = ReturnType<typeof useUploadImageMutation>;
+export type UploadImageMutationResult = Apollo.MutationResult<UploadImageMutation>;
+export type UploadImageMutationOptions = Apollo.BaseMutationOptions<UploadImageMutation, UploadImageMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($input: LoginUserInput!) {
   login(input: $input) {
@@ -449,7 +638,7 @@ export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
 export const UploadPhotoDocument = gql`
-    mutation UploadPhoto($input: UploadPhotoInput!) {
+    mutation UploadPhoto($input: UploadImageInput!) {
   uploadPhoto(input: $input)
 }
     `;

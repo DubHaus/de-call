@@ -5,6 +5,7 @@ import {
     Entity,
     JoinTable,
     ManyToMany,
+    ManyToOne,
     OneToMany,
     PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -40,6 +41,10 @@ export class Profile extends BaseEntity {
     @ManyToMany(() => Language)
     @JoinTable()
     languages?: Language[];
+
+    @Field(() => Photo, {nullable: true})
+    @ManyToOne(() => Photo, {nullable: true})
+    profilePhoto?: Photo
 
     @Field(() => [Photo])
     @OneToMany(() => Photo, photo => photo.profile)

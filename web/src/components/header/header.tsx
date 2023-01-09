@@ -1,7 +1,8 @@
 import Loader from '@components/common/loader';
+import Title from '@components/common/typography/title';
 import Container from 'src/components/common/container';
 import Flex from 'src/components/common/flex';
-import { useGetIsLoggedInQuery} from 'src/generated/graphql';
+import {useGetIsLoggedInQuery} from 'src/generated/graphql';
 import Login from './components/login';
 import Logout from './components/logout';
 import styles from './header.module.scss';
@@ -16,9 +17,9 @@ const Header = ({className, title}: Props) => {
         fetchPolicy: 'network-only',
     });
     return (
-        <Container className={`p-5 ${className}`}>
+        <Container className={`px-5 py-3 bg-slate-50/50 ${className}`}>
             <Flex justify="between">
-                <h1 className="text-xl font-semibold">{title}</h1>
+                <Title level="h3">{title}</Title>
                 <Loader loading={loading}>
                     <Container className={styles.login}>
                         {data?.isLoggedIn ? <Logout /> : <Login />}

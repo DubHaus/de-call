@@ -6,16 +6,28 @@ type Props = {
     style?: CSSProperties;
     onClick?: () => void;
     gap?: number;
+    onHover?: () => void;
+    onBlur?: () => void;
 };
 
 const Container = React.forwardRef<HTMLDivElement, Props>(
     (
-        {children = null, className = '', gap, onClick, style = {}}: Props,
+        {
+            children = null,
+            className = '',
+            gap,
+            onClick,
+            style = {},
+            onHover,
+            onBlur,
+        }: Props,
         ref
     ) => (
         <div
             ref={ref}
             className={className}
+            onMouseOver={onHover}
+            onMouseLeave={onBlur}
             style={{
                 ...style,
                 ...(gap ? {gap, display: 'flex', flexDirection: 'column'} : {}),

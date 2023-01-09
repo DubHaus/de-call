@@ -12,7 +12,8 @@ import {sendRefreshToken} from './utils/sendRereshToken';
 import cors from 'cors';
 import {createSchema} from './schema';
 import {formatError} from './utils/formatError';
-import { join } from 'path';
+import {join} from 'path';
+import DateScalar from './entity/scalars/Date';
 
 (async () => {
     const app = express();
@@ -69,9 +70,11 @@ import { join } from 'path';
         formatError,
         typeDefs: gql`
             scalar Upload
+            scalar Date
         `,
         resolvers: {
             Upload: GraphQLUpload,
+            Date: DateScalar,
         },
     });
 

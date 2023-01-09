@@ -1,0 +1,22 @@
+mutation createEvent($input: CreateEventInput!) {
+    createEvent(input: $input)
+}
+
+query myCreatedEvents {
+    myCreatedEvents {
+        id
+        title
+        description
+        date
+        categories {
+            value
+        }
+        previewImage {
+            location
+        }
+        attendees {
+            username
+        }
+        type
+    }
+}

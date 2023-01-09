@@ -1,15 +1,22 @@
 import {ReactNode} from 'react';
-import styles from './caption.module.scss';
 
 type Props = {
     children: ReactNode;
     bold?: boolean;
     className?: string;
-    compact?: boolean
+    size?: 'lg' | 'base' | 'sm' | 'xs';
 };
 
-const Text = ({children, bold = false, className = '', compact= false}: Props) => (
-    <span className={`${styles.text} ${bold && styles.bold} ${compact && styles.compact} ${className}`}>
+const Text = ({
+    children,
+    bold = false,
+    className = '',
+    size = 'base',
+}: Props) => (
+    <span
+        className={`text-${size} text-current font-sans ${
+            bold ? 'font-bold' : 'font-normal'
+        } ${className}`}>
         {children}
     </span>
 );

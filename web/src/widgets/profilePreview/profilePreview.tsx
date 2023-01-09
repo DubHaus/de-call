@@ -1,5 +1,6 @@
 import Container from '@components/common/container';
 import Icon from '@components/common/icon';
+import Image from '@components/common/image';
 import Span from '@components/common/typography/span';
 import Text from '@components/common/typography/text';
 import Title from '@components/common/typography/title';
@@ -12,7 +13,7 @@ type Props = {
     bio?: string | null;
     languages?: Language[] | null;
     interests?: Category[] | null;
-    profilePhoto?: {location: string} & {} | null;
+    profilePhoto?: ({location: string} & {}) | null;
 };
 
 const ProfilePreview = ({
@@ -26,16 +27,7 @@ const ProfilePreview = ({
 }: Props) => (
     <Container className="rounded border border-solid  border-indigo-600 p-5 flex">
         <Container className="shrink-0">
-            {profilePhoto ? (
-                <img
-                    className="object-cover w-20 h-20 rounded-full"
-                    src={profilePhoto.location}
-                />
-            ) : (
-                <Container className="w-20 h-20 rounded-full inline-flex justify-center items-center bg-indigo-100">
-                    <Icon icon="profile" />
-                </Container>
-            )}
+            <Image className='w-20 h-20 rounded-full overflow-hidden' src={profilePhoto?.location} placeholder="profile" />
         </Container>
         <Container className="ml-8">
             <Container className="mb-2">

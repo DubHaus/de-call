@@ -7,8 +7,7 @@ interface Props {
     children?: ReactNode;
 }
 
-const Loader = ({loading = true, children = null}: Props) => (
-    <Container>{loading ? <Text>Loading...</Text> : children}</Container>
-);
+const Loader = ({loading = true, children = null}: Props) =>
+    loading ? <Text>Loading...</Text> : <>{children}</>;
 
 export default Loader;

@@ -22,7 +22,7 @@ const Card = ({
     title,
     top,
 }: Props) => (
-    <Container className="mt-8 p-4 py-4 bg-indigo-500/10 border-2 border-indigo-500 rounded">
+    <Container className="p-4 py-4 bg-indigo-500/10 border-2 border-indigo-500 rounded">
         {top}
         <Container className="flex content-start items-start gap-2">
             <Container className="flex-1">
@@ -33,7 +33,7 @@ const Card = ({
             </Container>
             {previewUrl ? (
                 <Container className="w-6/12 relative">
-                    <Image src={previewUrl} layout="fill" className="rounded" />
+                    <img src={previewUrl} className="rounded" />
                 </Container>
             ) : null}
         </Container>

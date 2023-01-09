@@ -43,6 +43,7 @@ export class ProfileResolver {
                     user.profile.languages = draft.languages;
                 } else throw new GraphQLError('Languages should be filled');
                 if (draft.profilePhoto) {
+                    user.profile.profilePhoto = draft.profilePhoto;
                     user.profile.photos = [
                         draft.profilePhoto,
                         ...(user.profile.photos || []),

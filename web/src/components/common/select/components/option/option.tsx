@@ -29,7 +29,7 @@ const Option = ({onClick, children, selected, multiple}: Props) => {
         <Container
             ref={ref}
             onClick={onClick}
-            className={`px-3 py-2 bg-white cursor-pointer text-current ${
+            className={`px-3 py-2  cursor-pointer text-current ${
                 selected && 'font-bold'
             } hover:bg-slate-200`}>
             {multiple ? (

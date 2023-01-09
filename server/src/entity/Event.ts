@@ -1,4 +1,4 @@
-import {Field, ObjectType} from 'type-graphql';
+import {Field, ObjectType, registerEnumType} from 'type-graphql';
 import {
     BaseEntity,
     Column,
@@ -6,6 +6,7 @@ import {
     JoinTable,
     ManyToMany,
     ManyToOne,
+    PrimaryGeneratedColumn,
 } from 'typeorm';
 import {Category} from './catalogs/Category';
 import {Image} from './Image';
@@ -17,9 +18,18 @@ export enum EventType {
     closed = 'closed',
 }
 
+registerEnumType(EventType, {
+    name: 'EventType', // this one is mandatory
+    description: 'Event type', // this one is optional
+});
+
 @Entity('events')
 @ObjectType()
 export class Event extends BaseEntity {
+    @Field()
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
+
     @Field()
     @Column({length: 300})
     title: string;
@@ -33,7 +43,9 @@ export class Event extends BaseEntity {
     description: string;
 
     @Field(() => Date)
-    @Column(() => Date)
+    @Column({
+        type: 'timestamptz',
+    })
     date: Date;
 
     @Field(() => [Category])
@@ -41,7 +53,7 @@ export class Event extends BaseEntity {
     @JoinTable()
     categories: Category[];
 
-    @Field(() => Image)
+    @Field(() => Image, {nullable: true})
     @ManyToOne(() => Image, {nullable: true})
     previewImage?: Image;
 
